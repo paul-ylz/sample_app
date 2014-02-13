@@ -47,6 +47,7 @@ gem 'spring',        group: :development
 
 group :development, :test do 
 	gem 'rspec-rails'
+	gem 'spork-rails'
 end
 
 group :test do 
