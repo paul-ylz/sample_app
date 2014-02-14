@@ -46,15 +46,18 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do 
-	gem 'rspec-rails'
-	gem 'spork-rails'
+	gem 'rspec-rails', '~> 2.14'
+	gem 'spork-rails', '~> 4.0'
 end
 
 group :test do 
-	gem 'selenium-webdriver'
-	gem 'capybara'
+	gem 'selenium-webdriver', '~> 2.39'
+	gem 'capybara', '~> 2.2'
 end
 
 gem 'rails_12factor', group: :production
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.1'
+
+# Required by 'has_secure_password'
+gem 'bcrypt-ruby', '3.1.2'
