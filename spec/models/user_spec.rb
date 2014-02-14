@@ -37,10 +37,11 @@ describe User do
 		it { should_not be_valid }
 	end
 
+	#  Ex 6.5.3 Rewrite the email validation regex so that foo@bar..com is invalid.
 	describe "when email format is invalid" do 
 		it "should be invalid" do 
 			invalid_emails = %w(user@foo,com user_at_foo.org example.user@foo. 
-				foo@bar_baz.com foo@bar+baz.com)
+				foo@bar_baz.com foo@bar+baz.com foo@bar..com)
 			invalid_emails.each do |e|
 				@user.email = e
 				expect(@user).not_to be_valid
@@ -103,5 +104,11 @@ describe User do
 		end
 	end
 
-
+	# Ex 6.5.1 test that mixed case emails are saved in all lower case.
+	it "should downcase emails" do 
+		mixed = "fOo@bAr.coM"
+		@user.email = mixed
+		@user.save
+		expect(@user.reload.email).to eq mixed.downcase
+	end
 end
