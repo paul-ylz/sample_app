@@ -2,45 +2,69 @@ require 'spec_helper'
 
 describe "StaticPages" do
 
-  # Exercise 3.5.2 Refactor title test using Rspec's 'let' helper method.
-  let(:base_title) { "Ruby on Rails Tutorial Sample App" }
-
   subject { page }
+
+  # Exercise 3.5.2 Refactor title test using Rspec's 'let' helper method.
+  # let(:base_title) { "Ruby on Rails Tutorial Sample App" }
+  # re-refactored in chapter 5 with full_title() in spec_helper
+
+  # Ex 5.6.2 Refactor to use Rspec's shared_examples_for
+  shared_examples_for 'all static pages' do 
+    it { should have_selector('h1', text: heading) } 
+    # have_title checks <title> tag contents. It will also match a substring.
+    it { should have_title(full_title(page_title)) }
+  end
 
   describe "Home page" do 
     before { visit root_path }
-
-		it { should have_content('Sample App') } 
-		
-		# have_title checks the <title> tag contents. It will also match a substring.
-  	it { should have_title full_title('') }
+    let(:heading) { 'Sample App' }		
+		let(:page_title) { '' }
+    it_should_behave_like "all static pages"
 
     it { should_not have_title('| Home') }
   end
 
   describe "Help page" do 
     before { visit help_path }
-    
-    it { should have_content('Help') }
-
-    it { should have_title full_title('Help') }
+    let(:heading) { 'Help' }    
+    let(:page_title) { 'Help' }
+    it_should_behave_like "all static pages"
   end
 
   describe "About page" do 
     before { visit about_path }
-    
-    it { should have_content('About Us') }
+    let(:heading) { 'About Us' }
+    let(:page_title) { 'About Us' }
+    it_should_behave_like "all static pages"
 
-    it { should have_title full_title('About Us') }
   end
 
-  # Exercise 3.5.1 - Make a Contact page for the sample app. 
+  # Exercise 3.5.1 - Make a Contact page. 
   describe "Contact page" do 
     before { visit contact_path }
-    
-    it { should have_content('Contact') }
+    let(:heading) { 'Contact' }
+    let(:page_title) { 'Contact' }
+    it_should_behave_like "all static pages"
+  end
 
-    it { should have_title full_title('Contact') }
+  # Exercise 5.6.3 test that layout links are properly defined
+  it "layout has the correct links" do 
+    visit root_path
+    
+    click_link "Sign up now!" 
+    current_path.should == signup_path
+
+    click_link "Home"
+    current_path.should == root_path
+
+    click_link "Help"
+    current_path.should == help_path
+
+    click_link "About"
+    current_path.should == about_path
+    
+    click_link "Contact"
+    current_path.should == contact_path
   end
   
 end
