@@ -13,7 +13,7 @@ describe "StaticPages" do
 		it { should have_content('Sample App') } 
 		
 		# have_title checks the <title> tag contents. It will also match a substring.
-  	it { should have_title("#{base_title}") }
+  	it { should have_title full_title('') }
 
     it { should_not have_title('| Home') }
   end
@@ -23,7 +23,7 @@ describe "StaticPages" do
     
     it { should have_content('Help') }
 
-    it { should have_title("#{base_title} | Help") }
+    it { should have_title full_title('Help') }
   end
 
   describe "About page" do 
@@ -31,7 +31,7 @@ describe "StaticPages" do
     
     it { should have_content('About Us') }
 
-    it { should have_title("#{base_title} | About Us") }
+    it { should have_title full_title('About Us') }
   end
 
   # Exercise 3.5.1 - Make a Contact page for the sample app. 
@@ -40,7 +40,7 @@ describe "StaticPages" do
     
     it { should have_content('Contact') }
 
-    it { should have_title("Contact") }
+    it { should have_title full_title('Contact') }
   end
   
 end

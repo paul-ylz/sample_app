@@ -49,3 +49,9 @@ end
 
 Spork.each_run do 
 end
+
+# Duplicate of the method in application_helper
+def full_title(page_title)
+  base_title = "Ruby on Rails Tutorial Sample App"
+  page_title.empty? ? base_title : "#{base_title} | #{page_title}"
+end
