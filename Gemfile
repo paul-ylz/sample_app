@@ -30,8 +30,12 @@ gem 'jbuilder', '~> 1.2'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc',          group: :doc, require: false
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/jonleighton/spring
-gem 'spring',        group: :development
+group :development do 
+	gem 'spring'
+	gem 'better_errors'
+	gem 'binding_of_caller'
+end
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -53,6 +57,7 @@ end
 group :test do 
 	gem 'selenium-webdriver', '~> 2.39'
 	gem 'capybara', '~> 2.2'
+	gem 'factory_girl_rails', '~> 4.3'
 end
 
 gem 'rails_12factor', group: :production
