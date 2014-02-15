@@ -4,19 +4,20 @@
 
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
-		<!-- Because there is no session model, we have to be more explicit and give
-		form_for the resource name and the relevant url  -->
-		<%= form_for(:session, url: sessions_path) do |f| %>
+		<!-- Ex 8.51 Use form_tag instead of form_for. form_tag is more appropriate
+		as a session is not a resource. -->
+		<%= form_tag sessions_path do %>
 
-			<%= f.label :email %>
-			<%= f.text_field :email %>
+			<%= label_tag :email %>
+			<%= text_field_tag :email, params[:email] %>
 
-			<%= f.label :password %>
-			<%= f.password_field :password %>
+			<%= label_tag :password %>
+			<%= password_field_tag :password, params[:password] %>
 
-			<%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
+			<%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
 		<% end %>
 
 		<p>New user? <%= link_to "Sign up now!", signup_path %></p>
 	</div>
 </div>
+

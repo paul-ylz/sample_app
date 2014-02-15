@@ -5,3 +5,26 @@
 # helper methods available in ours tests.
 
 include ApplicationHelper
+
+# Chap 8.34 Adding spec helpers to decouple the tests
+def sign_in(user)
+	visit signin_path
+	# using upcased email to be sure the downcase callback works
+	fill_in "Email", with: user.email.upcase
+	fill_in "Password", with: user.password
+	click_button "Sign in"
+end
+
+RSpec::Matchers.define :have_error_message do |message|
+	match do |page|
+		expect(page).to have_selector('div.alert.alert-error', text: message)
+	end
+end
+
+RSpec::Matchers.define :have_signed_in_attributes do |user|
+	match do |page|
+		expect(page).to have_title(user.name)
+		expect(page).to have_link('Profile', href: user_path(user))
+		expect(page).to have_link('Sign out', href: signout_path)
+	end
+end
