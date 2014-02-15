@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 	# Ex 6.5.2 Adding a bang! to the end of an object's method will assign the   
 	# modified object to itself. 
 	before_save { self.email.downcase! }
+	before_create :create_remember_token
 
 	validates :name, presence: true, length: { maximum: 50 }
 
@@ -27,4 +28,28 @@ class User < ActiveRecord::Base
 	# password and password_confirmation attributes. It requires a password_digest 
 	# column to be created in the db.
 	has_secure_password
+
+	# Chap 8.18
+	# Token creation and encrption are called on User because they are not specific 
+	# to a particular user instance. Further they are public because we use them 
+	# from outside the User model too.
+
+	# Create a random string and encrypt it use as a remember token, which will
+	# be stored in both the app database and browser cookie to use for authentication
+	# and remembrance.
+	def User.new_remember_token
+		SecureRandom.urlsafe_base64
+	end
+
+	def User.encrypt(token)
+		# Call .to_s in case of nil tokens (should not happen in browsers, but 
+		# could happen in tests)
+		Digest::SHA1.hexdigest(token.to_s)
+	end
+
+	private
+
+		def create_remember_token
+			self.remember_token = User.encrypt(User.new_remember_token)
+		end
 end

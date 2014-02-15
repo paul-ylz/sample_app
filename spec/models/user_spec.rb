@@ -21,6 +21,7 @@ describe User do
 	it { should respond_to(:password) }
 	it { should respond_to(:password_confirmation) }
 	it { should respond_to(:authenticate) }
+	it { should respond_to(:remember_token) }
 
 	describe "when name is not present" do 
 		before { @user.name = "" }
@@ -105,10 +106,19 @@ describe User do
 	end
 
 	# Ex 6.5.1 test that mixed case emails are saved in all lower case.
-	it "should downcase emails" do 
-		mixed = "fOo@bAr.coM"
-		@user.email = mixed
-		@user.save
-		expect(@user.reload.email).to eq mixed.downcase
+	describe "should downcase emails" do
+		let(:mixed) { "fOo@bAr.coM" }
+		before do
+			@user.email = mixed
+			@user.save
+		end
+
+		its(:email) { should eq mixed.downcase }
+	end
+
+	describe "remember_token" do 
+		before { @user.save }		
+		
+		its(:remember_token) { should_not be_blank }
 	end
 end
