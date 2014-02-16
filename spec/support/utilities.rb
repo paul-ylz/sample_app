@@ -27,11 +27,25 @@ RSpec::Matchers.define :have_error_message do |message|
 	end
 end
 
-RSpec::Matchers.define :have_signed_in_attributes do |user|
+RSpec::Matchers.define :have_signed_in_links do |user|
 	match do |page|
-		expect(page).to have_title(user.name)
+		# expect(page).to have_title(user.name)
 		expect(page).to have_link('Profile', href: user_path(user))
 		expect(page).to have_link('Sign out', href: signout_path)
 		expect(page).to have_link('Settings', href: edit_user_path(user))
+		expect(page).to have_link('Users', href: users_path)
+	end
+end
+
+RSpec::Matchers.define :page_has_title do |title|
+	match do |page|
+		expect(page).to have_title(title)
+	end
+end
+
+RSpec::Matchers.define :page_has_title_and_h1 do |title|
+	match do |page|
+		expect(page).to have_title(title)
+		expect(page).to have_select('h1', text: title)
 	end
 end

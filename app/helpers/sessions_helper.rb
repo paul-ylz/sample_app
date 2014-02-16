@@ -39,4 +39,16 @@ module SessionsHelper
 		cookies.delete(:remember_token)
 		self.current_user = nil
 	end
+
+	# Chap 9.17 Friendly forwarding implementation
+	def redirect_back_or(default)
+		redirect_to(session[:return_to] || default)
+		session.delete(:return_to)
+	end
+
+	# Store the requested GET url, available in the rails request object, in the 
+	# Rails session (we create the :return_to key)
+	def store_location
+		session[:return_to] = request.url if request.get?
+	end
 end

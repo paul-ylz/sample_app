@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 		user = User.find_by(email: params[:email].downcase)
 		if user && user.authenticate(params[:password])
 			sign_in user 
-			redirect_to user
+			redirect_back_or(user)
 		else
 			# Chap 8.12
 			# Flash messages persist for 1 request. Unlike 'redirect_to', render does
