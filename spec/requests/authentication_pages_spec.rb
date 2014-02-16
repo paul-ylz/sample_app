@@ -71,9 +71,6 @@ describe "Authentication" do
 				before { get users_path }
 				specify { expect(response).to redirect_to(signin_path) }
 			end
-
-			
-
 		end
 
 		describe "for wrong users" do 
@@ -85,18 +82,26 @@ describe "Authentication" do
 
 			describe "submit GET to User#edit" do 
 				before { get edit_user_path(ned) }
-
 				specify { expect(response.body).not_to match(full_title('Edit User')) }
 				specify { expect(response).to redirect_to(root_url) }
 			end
 
 			describe "submit PATCH to Users#update" do 
 				before { patch user_path(ned) }
-
 				specify { expect(response).to redirect_to(root_url) }
 			end
-		end 
+		end
 
+		describe "for non admin users" do 
+			let(:bart) { create(:user) }
+			let(:lisa) { create(:user) }
+			before { sign_in bart, no_capybara: true }
+
+			describe "submit DELETE to Users#destroy" do 
+				before { delete user_path(lisa) }
+				specify { expect(response).to redirect_to(root_path) }
+			end
+		end
 	end
 end
 

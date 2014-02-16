@@ -1,4 +1,10 @@
 <li>
 	<%= gravatar_for user, size: 52 %>
 	<%= link_to user.name, user %>
+	<!-- Chap 9.43 delete links -->
+	<!-- note that rails requires javascript to use its default delete method-->
+	<% if current_user.admin? && !current_user?(user) %>
+		| <%= link_to 'delete', user, method: :delete, 
+			data: { confirm: 'Are you sure?' } %>
+	<% end %>
 </li>
