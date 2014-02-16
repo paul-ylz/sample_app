@@ -92,14 +92,24 @@ describe "UserPages" do
 		before do 
 			sign_in user
 			visit users_path
-			# TODO: Add users to the database
 		end
 		specify { page_has_title_and_h1('All users') }
 
-		it "should list each user" do 
-			User.all.each do |u|
-				expect(page).to have_selector('li', text: u.name)
+		describe "pagination" do 
+			# Chap 9.31 before(:all) and after(:all) ensure these functions are carried
+			# out only once for all tests in the block (an optimization for speed).
+			before(:all) { 30.times { create(:user) } }
+			after(:all) { User.delete_all }
+
+			# test that the will_paginate gem is in force
+			it { should have_selector('div.pagination') }
+
+			it "should list each user" do 
+				User.paginate(page: 1).each do |u|
+					expect(page).to have_selector('li', text: u.name)
+				end
 			end
 		end
+		
 	end
 end

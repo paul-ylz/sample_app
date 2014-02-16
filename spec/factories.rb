@@ -1,7 +1,8 @@
 FactoryGirl.define do 
 	factory :user do 
-		name	"Foo Bar"
-		email	"foo@bar.com"
+		# Chap 9.31 Using sequences to create multiple users.
+		sequence(:name) { Faker::Name.name }
+		sequence(:email) { Faker::Internet.email }
 		password "password"
 		password_confirmation "password"
 	end

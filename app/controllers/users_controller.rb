@@ -33,7 +33,10 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    # Chapter 9.33 Using the will_paginate gem. 
+    # Note params[:page] is generated automatically by will_paginate.
+    # Default chunk size is 30 items.
+    @users = User.paginate(page: params[:page])
   end
 
   private

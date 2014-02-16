@@ -69,3 +69,8 @@ gem 'bcrypt-ruby', '3.1.2'
 
 # Chap 9.3.2 Make sample users for us 
 gem 'faker'
+
+# Chap 9.30 Pagination
+gem 'will_paginate'
+
+gem 'bootstrap-will_paginate'

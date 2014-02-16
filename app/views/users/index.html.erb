@@ -2,11 +2,11 @@
 
 <h1><%= yield(:title) %></h1>
 
+<!-- Chap 9.32 Using will_paginate gem -->
+<%= will_paginate %>
+
 <ul class="users">
-	<% @users.each do |u| %>
-		<li>
-			<%= gravatar_for u, size: 52 %>
-			<%= link_to u.name, u %>
-		</li>
-	<% end %>
+	<%= render @users %>
 </ul>
+
+<%= will_paginate %>
