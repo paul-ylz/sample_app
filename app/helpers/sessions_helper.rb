@@ -19,13 +19,22 @@ module SessionsHelper
 		@current_user ||= User.find_by(remember_token: remember_token)
 	end
 
+	# Chap 9.15
+	def current_user?(user)
+		# Note: user is a local variable, whereas current_user is an attribute of 
+		# the current session, which could be more explicitly defined as 
+		# self.current_user
+ 		current_user == user 
+	end
+
 	def signed_in?
 		!current_user.nil?
 	end
 
 	def sign_out
 		# change the token in case its been stolen
-		current_user.update_attribute(:remember_token, User.encrypt(User.new_remember_token))
+		current_user.update_attribute(:remember_token, 
+			User.encrypt(User.new_remember_token))
 		# delete the cookie
 		cookies.delete(:remember_token)
 		self.current_user = nil

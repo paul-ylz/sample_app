@@ -60,6 +60,26 @@ describe "Authentication" do
 				end
 			end
 		end
+
+		describe "for wrong users" do 
+			let(:ned) { create(:user) }
+			let(:homer) { create(:user, email: "naughty@user.com") }
+			# Chap 9.2.2 We cannot use capybara for these tests because a user would
+			# not be able to access these routes via browser links. 
+			before { sign_in homer, no_capybara: true }
+
+			describe "submit GET to User#edit" do 
+				before { get edit_user_path(ned) }
+				specify { expect(response.body).not_to match(full_title('Edit User')) }
+				specify { expect(response).to redirect_to(root_url) }
+			end
+
+			describe "submit PATCH to Users#update" do 
+				before { patch user_path(ned) }
+				specify { expect(response).to redirect_to(root_url) }
+			end
+		end 
+
 	end
 end
 
