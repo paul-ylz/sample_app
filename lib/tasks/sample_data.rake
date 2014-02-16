@@ -5,7 +5,9 @@ namespace :db do
 			name: 'Foo Bar',
 			email: 'foo@bar.com',
 			password: 'password',
-			password_confirmation: 'password'
+			password_confirmation: 'password',
+			# Make the first user admin by default
+			admin: true
 			)
 		99.times do |n|
 			name = Faker::Name.name
