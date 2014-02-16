@@ -66,3 +66,6 @@ gem 'bootstrap-sass', '~> 3.1'
 
 # Required by 'has_secure_password'
 gem 'bcrypt-ruby', '3.1.2'
+
+# Chap 9.3.2 Make sample users for us 
+gem 'faker'
