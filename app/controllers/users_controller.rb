@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :signed_in_user, only: [:edit, :update, :index]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
+  before_action :no_signed_in_user, only: [:new, :create]
 
   def new
   	@user = User.new
@@ -64,10 +65,16 @@ class UsersController < ApplicationController
     end    
 
     def correct_user
-      redirect_to root_url unless current_user?(@user)
+      redirect_to root_path unless current_user?(@user)
     end
 
+    # Ex 9.6.9 Prevent admin users from deleting themselves.
     def admin_user
-      redirect_to root_url unless current_user.admin?
+      redirect_to root_path unless current_user.admin? && (current_user != @user)
     end
+
+    def no_signed_in_user
+      redirect_to root_path if signed_in?
+    end
+
 end

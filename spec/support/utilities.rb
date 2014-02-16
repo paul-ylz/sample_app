@@ -36,16 +36,3 @@ RSpec::Matchers.define :have_signed_in_links do |user|
 		expect(page).to have_link('Users', href: users_path)
 	end
 end
-
-RSpec::Matchers.define :page_has_title do |title|
-	match do |page|
-		expect(page).to have_title(title)
-	end
-end
-
-RSpec::Matchers.define :page_has_title_and_h1 do |title|
-	match do |page|
-		expect(page).to have_title(title)
-		expect(page).to have_select('h1', text: title)
-	end
-end

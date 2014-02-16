@@ -13,7 +13,7 @@ describe "UserPages" do
 		# with more precise:
 		# it { should have_selector('h1', text: 'Sign up') }
 		it { should have_selector('h1', text: 'Sign up') }
-		specify { page_has_title(full_title('Sign up')) }
+		it { should have_title(full_title('Sign up')) }
 		describe "with invalid information" do 
 			it "should not sign up a user" do 
 				expect { click_button submit }.not_to change(User, :count)
@@ -21,7 +21,7 @@ describe "UserPages" do
 			# Ex 7.6.2 Test error messages for user sign-up.
 			describe "displays error messages" do 
 				before { click_button submit }
-				specify { page_has_title('Sign up') }
+				it { should have_title(full_title('Sign up')) }
 				it { should have_selector('div#error_explanation', text: 'error') }
 			end
 		end
@@ -30,7 +30,7 @@ describe "UserPages" do
 				fill_in "Name", with: "Foo Bar"
 				fill_in "Email", with: "foo@bar.com"
 				fill_in "Password", with: "password"
-				fill_in "Confirmation", with: "password"
+				fill_in "Confirm Password", with: "password"
 				click_button submit
 			end
 			it "should sign up a new user" do 				
@@ -40,7 +40,7 @@ describe "UserPages" do
 			describe "after saving the user" do 
 				before { fill_user_details }
 				let(:user) { User.find_by(email: 'foo@bar.com') }
-				specify { page_has_title(user.name) }
+				it { should have_title(user.name) }
 				it { should have_selector('div.alert.alert-success', text: 'Welcome') }
 				it { should have_link('Sign out') }
 			end
@@ -53,7 +53,8 @@ describe "UserPages" do
 		# Chap 7.8, using FactoryGirl's syntax to create a user from the definition
 		# in /spec/factories.rb
 		before { visit user_path(user) }
-		specify { page_has_title_and_h1(user.name) }
+		it { should have_title(user.name) }
+		it { should have_selector('h1', text: user.name) }
 	end
 
 	describe "edit" do 
@@ -62,7 +63,7 @@ describe "UserPages" do
 			visit edit_user_path(user)
 		end
 		it { should have_content('Update your profile') }
-		specify { page_has_title_and_h1('Edit user') }
+		it { should have_title('Edit user') }
 		it { should have_link('change', href: 'http://gravatar.com/emails') }
 
 		describe "with invalid information" do 
@@ -80,7 +81,7 @@ describe "UserPages" do
 				fill_in "Confirm Password", with: 'newpassword'
 				click_button 'Save changes'
 			end
-			specify { page_has_title(new_name) }
+			it { should have_title(new_name) }
 			it { should have_selector('div.alert.alert-success') }
 			it { should have_link('Sign out', href: signout_path) }
 			specify { expect(user.reload.name).to eq new_name }
@@ -93,7 +94,8 @@ describe "UserPages" do
 			sign_in user
 			visit users_path
 		end
-		specify { page_has_title_and_h1('All users') }
+		it { should have_title('All users') }
+		it { should have_selector('h1', 'All users') }
 
 		describe "pagination" do 
 			# Chap 9.31 before(:all) and after(:all) ensure these functions are carried
@@ -128,6 +130,15 @@ describe "UserPages" do
 					# Capybara will use the first delete it finds
 					click_link('delete', match: :first) 
 				end.to change(User, :count).by(-1)
+			end
+		end
+
+		# Ex 9.6.9 Admin cannot destroy themselves
+		describe "when admin tries to delete itself" do 
+			let(:admin) { create(:admin) }
+			before { sign_in admin, no_capybara: true }
+			it "should not delete admin" do 
+				expect{ delete user_path(admin) }.not_to change(User, :count).by(-1) 
 			end
 		end
 	end
