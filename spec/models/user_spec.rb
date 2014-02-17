@@ -119,4 +119,8 @@ describe User do
 		end
 	end
 
+	describe "should have_many microposts" do 
+		it { should respond_to(:microposts) }
+	end
+
 end

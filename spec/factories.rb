@@ -11,4 +11,11 @@ FactoryGirl.define do
 			admin true
 		end
 	end
+
+	# Chap 10.1.4 The following allows microposts creation with syntax such as
+	# create(:micropost, user: @user, created_at: 1.day.ago)
+	factory :micropost do 
+		content "Make that... *four* months detention."
+		user
+	end
 end

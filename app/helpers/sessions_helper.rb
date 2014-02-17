@@ -10,6 +10,26 @@ module SessionsHelper
 		self.current_user = user
 	end
 
+	def signed_in?
+		!current_user.nil?
+	end
+
+  def signed_in_user
+	  unless signed_in?
+	    store_location
+	    redirect_to signin_path, notice: "Please sign in."
+	  end
+	end    
+
+	def sign_out
+		# change the token in case its been stolen
+		current_user.update_attribute(:remember_token, 
+			User.encrypt(User.new_remember_token))
+		# delete the cookie
+		cookies.delete(:remember_token)
+		self.current_user = nil
+	end
+
 	def current_user=(user)
 		@current_user = user
 	end
@@ -25,19 +45,6 @@ module SessionsHelper
 		# the current session, which could be more explicitly defined as 
 		# self.current_user
  		current_user == user 
-	end
-
-	def signed_in?
-		!current_user.nil?
-	end
-
-	def sign_out
-		# change the token in case its been stolen
-		current_user.update_attribute(:remember_token, 
-			User.encrypt(User.new_remember_token))
-		# delete the cookie
-		cookies.delete(:remember_token)
-		self.current_user = nil
 	end
 
 	# Chap 9.17 Friendly forwarding implementation

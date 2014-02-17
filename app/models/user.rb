@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 	# modified object to itself. 
 	before_save { self.email.downcase! }
 	before_create :create_remember_token
+	has_many :microposts, dependent: :destroy
 
 	validates :name, presence: true, length: { maximum: 50 }
 
