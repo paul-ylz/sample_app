@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Microposts' do 
+describe 'Micropost pages' do 
 	let(:mona) { create(:user, name: 'Mona Simpson') }
 	let!(:m1) { create(:micropost, user: mona, content: 'How I wet your mother') }
 	let!(:m2) { create(:micropost, user: mona, content: 'No disgrace like home') }
@@ -34,4 +34,29 @@ describe 'Microposts' do
 		end
 	end
 
+	describe "micropost creation" do 
+		before do 
+			sign_in mona
+			visit root_path 
+		end
+
+		describe "with invalid content" do 
+
+			it "should not create micropost" do 
+				expect{ click_button "Post" }.not_to change(Micropost, :count)
+			end
+			describe "should show error message" do
+				before { click_button "Post" }
+				it { should have_error_message }
+			end
+
+		end
+		describe "with valid content" do 
+
+			before { fill_in 'micropost_content', with: "Marry him Marge" }
+			it "should create a micropost" do 
+				expect { click_button 'Post' }.to change(Micropost, :count).by(1)
+			end
+		end
+	end
 end
