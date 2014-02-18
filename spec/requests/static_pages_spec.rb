@@ -28,18 +28,50 @@ describe "StaticPages" do
     
     describe "for authenticated users" do 
       let(:maggie) { create(:user, name: 'Maggie Simpson') }
-      before do 
-        create(:micropost, user: maggie, content: 'click click')
-        create(:micropost, user: maggie, content: "It's your fault I can't talk")
-        sign_in maggie 
-        visit root_path
-      end
+      
+      describe "should render Maggie's feed" do 
+        before do 
+          create(:micropost, user: maggie, content: 'click click')
+          create(:micropost, user: maggie, content: "It's your fault I can't talk")
+          sign_in maggie 
+          visit root_path
+        end
 
-      it "should render the Maggie's feed" do 
-        maggie.feed.each do |item|
-          expect(page).to have_selector("li##{item.id}", text: item.content)
+        it "should render the Maggie's feed" do 
+          maggie.feed.each do |item|
+            expect(page).to have_selector("li##{item.id}", text: item.content)
+          end
         end
       end
+      
+      # Ex 10.5.1 Tests for sidebar micropost counts with proper pluralization
+      describe "sidebar micropost count" do 
+        let(:burns) { create(:user, name: 'Charles Montgomery Burns') }
+        before { sign_in burns }
+
+        describe "with 0 microposts" do 
+          before { visit root_path }
+          it { should have_content('0 microposts') }
+        end
+
+        describe "with 1 micropost" do 
+          before do 
+            create(:micropost, user: burns, content: 'Smithers!')
+            visit root_path
+          end
+          it { should have_content('1 micropost') }
+        end
+        
+        describe "correct pluralization" do
+          before do 
+            create(:micropost, user: burns, content: 'Smithers!')
+            create(:micropost, user: burns, content: "Don't make me call twice")
+            visit root_path
+          end
+          it { should have_selector('span.count', text: /\A2 microposts\z/) }
+        end
+      end
+
     end
   end
 

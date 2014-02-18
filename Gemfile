@@ -58,6 +58,7 @@ group :test do
 	gem 'selenium-webdriver', '~> 2.39'
 	gem 'capybara', '~> 2.2'
 	gem 'factory_girl_rails', '~> 4.3'
+	gem 'launchy'
 end
 
 gem 'rails_12factor', group: :production
