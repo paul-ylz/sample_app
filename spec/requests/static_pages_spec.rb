@@ -16,12 +16,31 @@ describe "StaticPages" do
   end
 
   describe "Home page" do 
-    before { visit root_path }
-    let(:heading) { 'Sample App' }		
-		let(:page_title) { '' }
-    it_should_behave_like "all static pages"
+    
+    describe "for unauthenticated users" do 
+      before { visit root_path }
+      let(:heading) { 'Sample App' }    
+      let(:page_title) { '' }
+      it_should_behave_like "all static pages"
+      # Do not want 'Home' to show up on home page.
+      it { should_not have_title('| Home') }
+    end
+    
+    describe "for authenticated users" do 
+      let(:maggie) { create(:user, name: 'Maggie Simpson') }
+      before do 
+        create(:micropost, user: maggie, content: 'click click')
+        create(:micropost, user: maggie, content: "It's your fault I can't talk")
+        sign_in maggie 
+        visit root_path
+      end
 
-    it { should_not have_title('| Home') }
+      it "should render the Maggie's feed" do 
+        maggie.feed.each do |item|
+          expect(page).to have_selector("li##{item.id}", text: item.content)
+        end
+      end
+    end
   end
 
   describe "Help page" do 

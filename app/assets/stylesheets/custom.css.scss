@@ -43,6 +43,12 @@ textarea {
 	margin-bottom: 20px;
 }
 
+.gravatar {
+  float: left;
+  clear: left;
+  margin: 20px 10px 0 0;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -88,6 +94,7 @@ p {
 /* footer */
 
 footer {
+  clear: both;
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $grayMediumLight;
@@ -124,11 +131,13 @@ footer {
 
 aside {
   section {
+
     padding: 10px 0;
-    border-top: 1px solid $grayLight;
+    // border-top: 1px solid $grayLight;
     &:first-child {
-      border: 0;
+      // border: 0;
       padding-top: 0;
+      margin-top: 20px;
     }
     span {
       display: block;
@@ -136,18 +145,16 @@ aside {
       line-height: 1;
     }
     h1 {
-      font-size: 1.4em;
+      font-size: 1.6em;
       text-align: left;
       letter-spacing: -1px;
       margin-bottom: 3px;
       margin-top: 0px;
     }
+    .gravatar{
+      margin-top: 0;
+    }
   }
-}
-
-.gravatar {
-  // float: left;
-  margin: 20px 10px 20px 0;
 }
 
 /* forms */
@@ -186,6 +193,7 @@ input {
 .users {
   list-style: none;
   margin: 0;
+  padding: 0;
   li {
     overflow: auto;
     padding: 10px 0;
@@ -193,6 +201,9 @@ input {
     &:last-child {
       border-bottom: 1px solid $grayLight;
     }
+  }
+  .gravatar {
+   margin-top: 0;
   }
 }
 
@@ -215,13 +226,12 @@ input {
     color: $grayLight;
   }
   .gravatar {
-    float: left;
-    margin-right: 10px;
+   margin-top: 0;
   }
-  aside {
-    textarea {
-      height: 100px;
-      margin-bottom: 5px;
-    }
-  }
+  // aside {
+    // textarea {
+    //   height: 100px;
+    //   margin-bottom: 5px;
+    // }
+  // }
 }

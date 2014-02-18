@@ -8,9 +8,7 @@ describe 'Micropost pages' do
 	subject { page } 
 
 	describe "on show user page (profile)" do 
-		before do 
-			sign_in mona
-		end
+		before { sign_in mona }
 		it { should have_title mona.name }
 		it { should have_selector 'h3', text: mona.microposts.count }
 		it { should have_content(m1.content) }
@@ -57,6 +55,19 @@ describe 'Micropost pages' do
 			it "should create a micropost" do 
 				expect { click_button 'Post' }.to change(Micropost, :count).by(1)
 			end
+		end
+	end
+
+	describe "micropost destruction" do 
+		describe "as correct user" do 
+			before do 
+				sign_in mona
+				visit root_path 
+			end
+			it "should delete a micropost" do 
+				expect { click_link "delete", match: :first }.to change(Micropost, :count).by(-1)
+			end
+
 		end
 	end
 end

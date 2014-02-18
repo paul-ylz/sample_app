@@ -16,6 +16,8 @@ describe User do
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:admin) }
+	it { should respond_to(:microposts) }
+	it { should respond_to(:feed) }
 
 	describe "when name is not present" do 
 		before { user.name = "" }
@@ -119,8 +121,17 @@ describe User do
 		end
 	end
 
-	describe "should have_many microposts" do 
-		it { should respond_to(:microposts) }
+	describe "micropost associations" do 
+		before { user.save }
+		let!(:m1) { create(:micropost, user: user) }
+		let!(:m2) { create(:micropost, user: user) }
+		let!(:m3) { create(:micropost, user: create(:user)) }
+
+		describe "status" do 
+			its(:feed) { should include m1 }
+			its(:feed) { should include m2 }
+			its(:feed) { should_not include m3 }
+		end
 	end
 
 end
