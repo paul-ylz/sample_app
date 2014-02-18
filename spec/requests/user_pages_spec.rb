@@ -92,7 +92,7 @@ describe "UserPages" do
 		it { should have_title('All users') }
 		it { should have_selector('h1', 'All users') }
 
-		describe "pagination" do 
+		describe "pagination of users" do 
 			# Chap 9.31 before(:all) and after(:all) ensure these functions are carried
 			# out only once for all tests in the block (an optimization for speed).
 			before(:all) { 30.times { create(:user) } }

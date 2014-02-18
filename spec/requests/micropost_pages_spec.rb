@@ -67,7 +67,41 @@ describe 'Micropost pages' do
 			it "should delete a micropost" do 
 				expect { click_link "delete", match: :first }.to change(Micropost, :count).by(-1)
 			end
-
 		end
 	end
+
+	# Ex 10.5.2 Test micropost pagination
+	describe "pagination of microposts" do 
+		before do 
+			30.times do 
+				create(:micropost, user: mona, content: 'Homer, your mother loves you.') 
+			end
+		end
+		after { mona.microposts.delete_all }
+
+		describe "on Mona's home page" do 
+			before do 
+				sign_in mona
+				visit root_url 
+			end
+			it { should have_selector('div.pagination') }
+			it "should list each feed item" do 
+				mona.feed.paginate(page: 1).each do |mp|
+					expect(page).to have_selector("li##{mp.id}", text: mp.content)
+				end
+			end
+		end
+
+		describe "on Mona's profile page" do 
+			before { visit user_url(mona) }
+			it { should have_selector('div.pagination') }
+			it "should list each of Mona's posts" do 
+				mona.microposts.paginate(page: 1).each do |mp|
+					expect(page).to have_selector("li##{mp.id}", text: mp.content)
+				end
+			end
+		end
+		
+	end
+
 end
