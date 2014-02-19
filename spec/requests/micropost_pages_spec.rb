@@ -13,6 +13,21 @@ describe 'Micropost pages' do
 		it { should have_selector 'h3', text: mona.microposts.count }
 		it { should have_content(m1.content) }
 		it { should have_content(m2.content) }
+
+		# Ex 10.5.4 Test visibility of delete links
+		describe "it should have delete links for Mona" do 
+			before do 
+				visit user_url mona 
+			end
+			it { should have_link('delete', href: micropost_path(m1)) }
+		end
+		describe "it should not have delete links for Grampa" do 
+			before do 
+				sign_in create(:user, name: 'Grampa Simpson')
+				visit user_url mona
+			end
+			it { should_not have_link('delete', href: micropost_path(m1)) }
+		end
 	end
 
 	describe "Authorization" do 
@@ -21,12 +36,12 @@ describe 'Micropost pages' do
 
 			describe "submit POST to Microposts#create" do 
 				before { post microposts_path }
-				specify { expect(response).to redirect_to signin_path }
+				specify { expect(response).to redirect_to signin_url }
 			end
 
 			describe "submit DELETE to Microposts#destroy" do 
 				before { delete micropost_path m1 }
-				specify { expect(response).to redirect_to signin_path }
+				specify { expect(response).to redirect_to signin_url }
 			end
 
 		end
