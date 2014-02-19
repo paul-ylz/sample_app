@@ -1,6 +1,6 @@
-<% if current_user?(micropost.user) %>
-	<%= link_to "delete", micropost, 
+<% if current_user?(object.user) %>
+	<%= link_to "delete", object, 
 		method: :delete, 
 		data: { confirm: 'Are you sure?' }, 
-		title: micropost.content %>
+		title: object.content %>
 <% end %> 
