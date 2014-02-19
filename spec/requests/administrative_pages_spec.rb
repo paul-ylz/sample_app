@@ -11,7 +11,7 @@ describe 'Administration pages' do
 			sign_in bart, no_capybara: true 
 			delete user_path(lisa) 
 		end
-		specify { expect(response).to redirect_to(root_path) }
+		specify { expect(response).to redirect_to root_url }
 	end
 
 	# Ex 9.6.1 Testing that a user cannot change admin attribute
@@ -55,6 +55,6 @@ describe 'Administration pages' do
 			expect{ delete user_path(admin) }.not_to change(User, :count).by(-1) 
 		end
 		before { delete user_path(admin) }
-		specify { expect(response).to redirect_to root_path }
+		specify { expect(response).to redirect_to root_url }
 	end
 end

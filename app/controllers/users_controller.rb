@@ -44,7 +44,7 @@ class UsersController < ApplicationController
 
   def destroy 
     if @user.destroy
-      redirect_to users_path, flash: { success: "Deleted user: #{@user.name}"}
+      redirect_to users_url, flash: { success: "Deleted user: #{@user.name}"}
     end
   end
 
@@ -59,16 +59,16 @@ class UsersController < ApplicationController
     end
 
     def correct_user
-      redirect_to root_path unless current_user?(@user)
+      redirect_to root_url unless current_user?(@user)
     end
 
     # Ex 9.6.9 Prevent admin users from deleting themselves.
     def admin_user
-      redirect_to root_path unless current_user.admin? && (current_user != @user)
+      redirect_to root_url unless current_user.admin? && (current_user != @user)
     end
 
     def no_signed_in_user
-      redirect_to root_path if signed_in?
+      redirect_to root_url if signed_in?
     end
 
 end

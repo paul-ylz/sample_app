@@ -33,14 +33,14 @@ describe "Authorization" do
 		describe "submitting to the update action" do 
 			before { patch user_path moe }
 			describe "should be redirected to root" do
-				specify { expect(response).to redirect_to signin_path }
+				specify { expect(response).to redirect_to signin_url }
 			end
 		end
 
 		describe "visiting the user index" do 
 			before { get users_path }
 			describe "should be redirected to root" do 
-				specify { expect(response).to redirect_to signin_path }
+				specify { expect(response).to redirect_to signin_url }
 			end
 		end
 	end

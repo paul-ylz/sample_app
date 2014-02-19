@@ -1,3 +1,10 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+# Ex 10.5.7 Add a js display for the home page to count down from 140 chars.
+
+updateCountdown = -> 
+  remaining = 140 - jQuery('#micropost_content').val().length
+  jQuery('#countdown').text(remaining + ' characters remaining.')
+
+jQuery ->
+    updateCountdown()
+    $('#micropost_content').change updateCountdown
+    $('#micropost_content').keyup updateCountdown
