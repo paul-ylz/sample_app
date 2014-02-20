@@ -18,6 +18,13 @@ describe User do
 	it { should respond_to(:admin) }
 	it { should respond_to(:microposts) }
 	it { should respond_to(:feed) }
+	it { should respond_to(:relationships) }
+	it { should respond_to(:followed_users) }
+	it { should respond_to(:following?) }
+	it { should respond_to(:follow!) }
+	it { should respond_to(:unfollow!) }
+	it { should respond_to(:reverse_relationships) }
+	it { should respond_to(:followers) }
 
 	describe "when name is not present" do 
 		before { user.name = "" }
@@ -131,6 +138,28 @@ describe User do
 			its(:feed) { should include m1 }
 			its(:feed) { should include m2 }
 			its(:feed) { should_not include m3 }
+		end
+	end
+
+	# Chap 11
+	describe "following" do 
+		let(:marge) { create(:user, name: 'Marge Simpson') }
+		let(:homer) { create(:user, name: 'Homer Simpson') }
+		
+		before { marge.follow! homer }
+		subject { marge }
+		it { should be_following homer }
+		its(:followed_users) { should include homer }
+
+		describe "followed user" do 
+			subject { homer }
+			its(:followers) { should include marge }
+		end
+		
+		describe "and unfollowing" do 
+			before { marge.unfollow! homer }
+			it { should_not be_following homer }
+			its(:followed_users) { should_not include homer }
 		end
 	end
 
