@@ -135,10 +135,24 @@ describe User do
 		let!(:m2) { create(:micropost, user: user) }
 		let!(:m3) { create(:micropost, user: create(:user)) }
 
-		describe "status" do 
+		describe "feed should include user's posts" do 
 			its(:feed) { should include m1 }
 			its(:feed) { should include m2 }
+		end
+		describe "feed should not include unfollowed users' posts" do 
 			its(:feed) { should_not include m3 }
+		end
+		describe "feed should include followed users' posts" do 
+			let(:followed_user) { create(:user) }
+			before do 
+				user.follow!(followed_user)
+				3.times { followed_user.microposts.create!(content: 'Foo!') }
+			end
+			its(:feed) do 
+				followed_user.microposts.each do |micropost|
+					should include(micropost)
+				end
+			end
 		end
 	end
 
