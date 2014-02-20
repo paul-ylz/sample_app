@@ -4,6 +4,7 @@ describe 'Administration pages' do
 	let(:admin) { create(:admin) }
 	let(:bart) { create(:user) }
 	let(:lisa) { create(:user) }
+
 	subject { page }
 
 	describe "when non-admin tries to delete another user" do 
@@ -15,6 +16,7 @@ describe 'Administration pages' do
 	end
 
 	# Ex 9.6.1 Testing that a user cannot change admin attribute
+	# 
 	describe "admin attribute cannot be edited from web" do 
 		let(:params) do 
 			{ user: 
@@ -49,7 +51,8 @@ describe 'Administration pages' do
 	end
 
 	# Ex 9.6.9 Admin cannot destroy themselves
-	describe "when admin tries to delete itself" do 
+	# 
+	describe "when admin tries to delete self" do 
 		before { sign_in admin, no_capybara: true }
 		it "should not delete admin" do 
 			expect{ delete user_path(admin) }.not_to change(User, :count).by(-1) 
