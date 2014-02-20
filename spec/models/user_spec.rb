@@ -102,6 +102,7 @@ describe User do
 	end
 
 	# Ex 6.5.1 test that mixed case emails are saved in all lower case.
+	# 
 	describe "should downcase emails" do
 		let(:mixed) { "fOo@bAr.coM" }
 		before do
@@ -162,5 +163,4 @@ describe User do
 			its(:followed_users) { should_not include homer }
 		end
 	end
-
 end

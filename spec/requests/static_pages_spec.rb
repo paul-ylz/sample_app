@@ -4,28 +4,26 @@ describe "StaticPages" do
 
   subject { page }
 
-  # Exercise 3.5.2 Refactor title test using Rspec's 'let' helper method.
-  # let(:base_title) { "Ruby on Rails Tutorial Sample App" }
-  # re-refactored in chapter 5 with full_title() in spec_helper
-
   # Ex 5.6.2 Refactor to use Rspec's shared_examples_for
+  # 
   shared_examples_for 'all static pages' do 
     it { should have_selector('h1', text: heading) } 
     # have_title checks <title> tag contents. It will also match a substring.
     it { should have_title(full_title(page_title)) }
   end
 
+
   describe "Home page" do 
-    
     describe "for unauthenticated users" do 
-      before { visit root_path }
       let(:heading) { 'Sample App' }    
       let(:page_title) { '' }
+      before { visit root_path }
+
       it_should_behave_like "all static pages"
       # Do not want 'Home' to show up on home page.
       it { should_not have_title('| Home') }
     end
-    
+
     describe "for authenticated users" do 
       let(:maggie) { create(:user, name: 'Maggie Simpson') }
       
@@ -100,10 +98,10 @@ describe "StaticPages" do
     let(:heading) { 'About Us' }
     let(:page_title) { 'About Us' }
     it_should_behave_like "all static pages"
-
   end
 
   # Exercise 3.5.1 - Make a Contact page. 
+  # 
   describe "Contact page" do 
     before { visit contact_path }
     let(:heading) { 'Contact' }
@@ -112,6 +110,7 @@ describe "StaticPages" do
   end
 
   # Exercise 5.6.3 test that layout links are properly defined
+  # 
   it "layout has the correct links" do 
     visit root_path
     
@@ -130,5 +129,4 @@ describe "StaticPages" do
     click_link "Contact"
     current_path.should == contact_path
   end
-  
 end

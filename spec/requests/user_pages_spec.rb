@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "UserPages" do
 	# Chap 7.8, using FactoryGirl's syntax to create a user from the definition
 	# in /spec/factories.rb
+	# 
 	let(:user) { create(:user) }
 
 	subject { page }
@@ -47,8 +48,8 @@ describe "UserPages" do
 		end
 	end
 
+
 	describe "Profile (show user) page" do 
-		
 		describe "for unauthenticated users" do 
 			before { visit user_path user }
 			it { should have_title(user.name) }
@@ -106,6 +107,7 @@ describe "UserPages" do
 		end
 	end
 
+
 	describe "Settings (edit user) page" do 
 		before do 
 			sign_in user 
@@ -137,6 +139,7 @@ describe "UserPages" do
 		end
 	end
 
+
 	describe "Index page" do 
 		before do 
 			sign_in user
@@ -148,6 +151,7 @@ describe "UserPages" do
 		describe "pagination of users" do 
 			# Chap 9.31 before(:all) and after(:all) ensure these functions are carried
 			# out only once for all tests in the block (an optimization for speed).
+			# 
 			before(:all) { 30.times { create(:user) } }
 			after(:all) { User.delete_all }
 
@@ -165,6 +169,7 @@ describe "UserPages" do
 			expect(page).not_to have_link('delete')
 		end
 	end
+
 
 	describe "Following and follower pages" do 
 		let(:homer) { create(:user, name: 'Homer Simpson') }
