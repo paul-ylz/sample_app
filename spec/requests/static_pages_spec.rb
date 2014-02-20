@@ -37,7 +37,7 @@ describe "StaticPages" do
           visit root_path
         end
 
-        it "should render the Maggie's feed" do 
+        it "should render Maggie's feed" do 
           maggie.feed.each do |item|
             expect(page).to have_selector("li##{item.id}", text: item.content)
           end
@@ -70,6 +70,19 @@ describe "StaticPages" do
           end
           it { should have_selector('span.count', text: /\A2 microposts\z/) }
         end
+      end
+
+      describe "follower and following counts" do 
+        let(:snowball) { create(:user, name: 'Snowball the cat') }
+        before do 
+          snowball.follow!(maggie)
+          sign_in maggie
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(maggie)) }
+        # TODO: pluralize for stats
+        it { should have_link("1 followers", href: followers_user_path(maggie)) }
       end
 
     end

@@ -43,6 +43,16 @@ describe "Authorization" do
 				specify { expect(response).to redirect_to signin_url }
 			end
 		end
+
+		describe "visiting the following page" do 
+			before { visit following_user_path moe }
+			it { should have_title 'Sign in' }
+		end
+
+		describe "vistiing the followers page" do 
+			before { visit followers_user_path moe }
+			it { should have_title 'Sign in' }
+		end
 	end
 
 	describe "Authenticated user performing unauthorized tasks" do 

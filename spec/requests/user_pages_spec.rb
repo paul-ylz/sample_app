@@ -48,9 +48,13 @@ describe "UserPages" do
 	end
 
 	describe "Profile (show user) page" do 
-		before { visit user_path user }
-		it { should have_title(user.name) }
-		it { should have_selector('h1', text: user.name) }
+		
+
+		describe "for unauthenticated users" do 
+			before { visit user_path user }
+			it { should have_title(user.name) }
+			it { should have_selector('h1', text: user.name) }
+		end
 	end
 
 	describe "Settings (edit user) page" do 
@@ -110,6 +114,32 @@ describe "UserPages" do
 
 		it "should not have delete links for non administrators" do 
 			expect(page).not_to have_link('delete')
+		end
+	end
+
+	describe "Following and follower pages" do 
+		let(:homer) { create(:user, name: 'Homer Simpson') }
+		let(:marge) { create(:user, name: 'Marge Simpson') }
+		before { marge.follow!(homer) }
+
+		describe "followed users" do 
+			before do 
+				sign_in marge 
+				visit following_user_path(marge)
+			end
+			it { should have_title(full_title('Following')) }
+			it { should have_selector('h3', text: 'Following') }
+			it { should have_link(homer.name, href: user_path(homer)) }
+		end
+
+		describe "followers" do 
+			before do 
+				sign_in homer 
+				visit followers_user_path(homer)
+			end
+			it { should have_title(full_title('Followers')) }
+			it { should have_selector('h3', text: 'Followers') }
+			it { should have_link(marge.name, href: user_path(marge)) }
 		end
 	end
 end
