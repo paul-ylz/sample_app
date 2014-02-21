@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Micropost do
 
-	let(:seymour) { create(:user) }
+	let(:seymour) { create(:user, name: 'Seymour Skinner', username: 'skinz') }
+	let(:willie) { create(:user, name: 'Willie MacDougal', username: 'grndskpr') }
 
 	before do 
 		@micropost = seymour.microposts.build(
@@ -13,6 +14,7 @@ describe Micropost do
 
 	it { should respond_to(:content) }
 	it { should respond_to(:user_id) }
+	it { should respond_to(:in_reply_to) }
 	it { should be_valid }
 
 	describe "should belong to user" do 
@@ -36,7 +38,6 @@ describe Micropost do
 	end
 	
 	describe "user's microposts" do 
-		let(:willie) { create(:user) }
 		# Note that FactoryGirl allows us to set Rails' magic method created_at.
 		# 
 		let!(:older) { create(:micropost, user: willie, created_at: 1.day.ago) }
@@ -54,4 +55,5 @@ describe Micropost do
 			end
 		end
 	end
+
 end

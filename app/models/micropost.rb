@@ -1,6 +1,7 @@
 class Micropost < ActiveRecord::Base
 	
 	belongs_to :user
+	# belongs_to :recipient, foreign_key: "in_reply_to", class_name: "User"
 
 	validates :user_id, presence: true
 	validates :content, presence: true, length: { maximum: 140 }

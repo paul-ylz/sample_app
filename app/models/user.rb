@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 	# of :follower and hence look up follower_id in this case.
 	# 
 	has_many :followers, through: :reverse_relationships#, source: :follower
-
+	
 	validates :name, presence: true, length: { maximum: 50 }
 
 	# Tutorial suggests that model validation will not prevent a duplicate email
