@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
 		if user && user.authenticate(params[:password])
 			sign_in user 
 			redirect_back_or(user)
+			# TODO : redirect to home page as default after signin
 		else
 			# Chap 8.12
 			# Flash messages persist for 1 request. Unlike 'redirect_to', render does

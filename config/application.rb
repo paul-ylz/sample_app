@@ -30,5 +30,6 @@ module SampleApp
     # Hartl adds this for asset pipeline compatibility. bootstrap-sass does not 
     # mention it in the docs however.
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
