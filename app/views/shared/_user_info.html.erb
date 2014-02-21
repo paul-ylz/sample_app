@@ -1,6 +1,7 @@
 <%= link_to gravatar_for(current_user, size: 55), current_user %>
 <h1>
-  <%= current_user.name %>
+  <%= current_user.name %> 
+  <small class="username">@<%= current_user.username %></small>
 </h1>
 <span>
   <%= link_to "view my profile", current_user %>

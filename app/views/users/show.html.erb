@@ -7,6 +7,9 @@
 				<%= gravatar_for @user, size: 55 %>
 				<%= @user.name %>
 			</h1>
+			<h5>
+				@<%= @user.username %>
+			</h5>
 		</section>
 		<section>
 			<%= render 'shared/stats' %>

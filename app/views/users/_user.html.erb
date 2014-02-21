@@ -1,6 +1,7 @@
 <li>
 	<%= gravatar_for user, size: 52 %>
-	<%= link_to user.name, user %>
+	<%= link_to user.name, user %><br/>
+	<span class="username">@<%= user.username %></span>
 	<!-- Chap 9.43 delete links -->
 	<!-- note that rails requires javascript to use its default delete method-->
 	<% if current_user.admin? && !current_user?(user) %>

@@ -3,6 +3,7 @@
 /* variables */
 $grayLight : #999;
 $grayMediumLight: #eaeaea;
+$grayMediumDark: #555;
 $grayDarker : #222;
 $blue: #428bca;
 
@@ -247,6 +248,9 @@ margin-top: 20px;
   }
 }
 
+.username {
+  color: $grayMediumDark;
+}
 /* microposts */
 
 .microposts {
