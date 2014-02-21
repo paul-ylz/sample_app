@@ -199,7 +199,7 @@ textarea, select, .uneditable-input {
 
 input {
   height: auto !important;
-  // @extend .form-control;
+  @extend .form-control;
 }
 
 #error_explanation {

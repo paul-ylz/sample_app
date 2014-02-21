@@ -12,6 +12,7 @@ def make_admin
 	User.create!(
 		name: 'Foo Bar',
 		email: 'foo@bar.com',
+		username: 'foo_bar',
 		password: 'password',
 		password_confirmation: 'password',
 		# Make the first user admin by default
@@ -23,10 +24,12 @@ def make_users
 	99.times do |n|
 			name = Faker::Name.name
 			email = Faker::Internet.email
+			username = Faker::Internet.user_name(4..12) + n.to_s
 			password = 'password'
 			User.create!(
 				name: name,
 				email: email,
+				username: username,
 				password: password,
 				password_confirmation: password
 				)

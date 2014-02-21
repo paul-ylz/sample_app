@@ -31,6 +31,7 @@ describe "UserPages" do
 			let(:sign_up) do 
 				fill_in "Name", with: "Foo Bar"
 				fill_in "Email", with: "foo@bar.com"
+				fill_in "Username", with: "foo_bar"
 				fill_in "Password", with: "password"
 				fill_in "Confirm Password", with: "password"
 				click_button submit
@@ -123,10 +124,11 @@ describe "UserPages" do
 		end
 
 		describe "updating with valid information" do 
-			let(:marge) { build(:user) }
+			let(:marge) { build(:user, name: 'Marge Simpson') }
 			before do 
 				fill_in "Name", with: marge.name
 				fill_in "Email", with: marge.email
+				fill_in "Username", with: marge.username
 				fill_in "Password", with: marge.password
 				fill_in "Confirm Password", with: marge.password
 				click_button 'Save changes'

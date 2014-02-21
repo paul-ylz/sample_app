@@ -25,6 +25,7 @@ describe User do
 	it { should respond_to(:unfollow!) }
 	it { should respond_to(:reverse_relationships) }
 	it { should respond_to(:followers) }
+	it { should respond_to(:username) }
 
 	describe "when name is not present" do 
 		before { user.name = "" }
@@ -111,6 +112,36 @@ describe User do
 		end
 		its(:email) { should eq mixed.downcase }
 	end
+
+
+	describe "username validations" do 
+		let(:homer) { build(:user, name: 'Homer Simpson') }
+		subject { homer }
+
+		describe "when empty" do 
+			before { homer.username = "" }
+			it { should_not be_valid }
+		end
+		describe "when too long" do 
+			before { homer.username = "a" * 16 }
+			it { should_not be_valid }
+		end
+		describe "when not unique" do 
+			let(:copycat) { build(:user, username: homer.username) }
+			before { homer.save! }
+			specify { expect(copycat).not_to be_valid }
+		end
+		describe "when it contains invalid characters" do 
+			it "should be invalid" do 
+				invalid_usernames = ['!noexclaim', 'no space', '{"symbols']
+				invalid_usernames.each do |e|
+					homer.username = e
+					expect(homer).not_to be_valid
+				end
+			end
+		end	
+	end
+
 
 	describe "remember_token" do 
 		before { user.save }		
