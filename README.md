@@ -6,16 +6,11 @@ The deployed application can be visited here: [http://morning-beach-8502.herokua
 
 ## Test Suite
 
-The application uses [Rspec](https://github.com/rspec/rspec-rails) and the [Capybara DSL](https://github.com/jnicklas/capybara). 
-
-Test environment preloader: [Spork](https://github.com/sporkrb/spork-rails) 
-Note Spork needs to be reloaded if you change spec_helpers or routes.rb, but wow its fast.
-
-In-editor testing: [Sublime RubyTest plugin](https://github.com/maltize/sublime-text-2-ruby-tests).
+[Rspec](https://github.com/rspec/rspec-rails) with [Capybara DSL](https://github.com/jnicklas/capybara). 
 
 ## Extensions
 
-### Replies
+### @Replies
 
 2/21/2014 - The replies feature is complete. 
 I went about it in this order:
