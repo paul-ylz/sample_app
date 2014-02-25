@@ -1,0 +1,21 @@
+<% provide(:title, 'Reply message') %>
+
+<h1>Reply</h1>
+
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+
+    <%= form_for(current_user.messages.build(to: @reply_to)) do |f| %>
+	    <%= render 'shared/error_messages', object: f.object %>
+
+			<%= f.hidden_field :to %>
+
+			<%= f.label :content %>
+			<%= f.text_field :content %>
+
+      <%= f.submit "Send", class: "btn btn-large btn-primary" %>
+	<% end %>
+    
+	</div>
+</div>
+

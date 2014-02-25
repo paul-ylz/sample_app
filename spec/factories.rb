@@ -7,6 +7,7 @@ FactoryGirl.define do
 		Faker::Internet.user_name(4..12) + n.to_s
 	end
 
+
 	# Factories
 	factory :user do
 		name 
@@ -23,6 +24,12 @@ FactoryGirl.define do
 	factory :micropost do 
 		content "Make that... *four* months detention."
 		user
+	end
+
+	factory :message do 
+		from 1
+		to 2
+		content "Just because I don't care doesn't mean I don't understand."
 	end
 
 end

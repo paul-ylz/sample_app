@@ -1,0 +1,19 @@
+<% provide :title, 'Sent messages' %>
+
+<table>
+	<thead>
+		<th>Sent</th><th>To</th><th>Message</th><th>Action</th>
+	</thead>	
+
+	<% @messages.each do |message| %>
+		<tr>
+			<td><%= time_ago_in_words(message.created_at) %> ago</td>
+			<td><%= link_to message.recipient.name, message.recipient %></td>
+			<td><%= link_to message.content[0..20], message %></td>
+			<td>
+				<%= link_to 'delete', message, method: :delete, 
+				data: { confirm: delete_message } %>
+			</td>
+		</tr>
+	<% end %>
+</table>

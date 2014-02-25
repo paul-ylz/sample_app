@@ -1,0 +1,6 @@
+<%= @message.created_at %>
+<%= @message.sender.name %>
+<%= @message.content %>
+<%= link_to 'reply', new_message_path(to: @message.sender.id) %>
+<%= link_to 'delete', @message, method: :delete, 
+	data: { confirm: 'Are you sure?' } %>

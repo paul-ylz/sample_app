@@ -1,0 +1,17 @@
+<%= link_to 'Sent messages', sent_messages_path %>
+<p>You have <%= pluralize @count, "message" %>.</p>
+	<table>
+		<tr>
+			<th>Sent</th><th>From</th><th></th><th></th>
+		</tr>	
+
+		<% @messages.each do |message| %>
+			<tr>
+				<%= content_tag(:td, time_ago_in_words(message.created_at) + ' ago')  %>
+				<%= content_tag(:td, message.sender.name) %>
+				<%= content_tag(:td, ('"' + message.content[0..20]) + ' ..."') %>
+				<%= content_tag(:td, link_to( "read", message)) %>	
+				<%= content_tag(:td, link_to("delete", message, method: :delete, data: { confirm: 'Are you sure?' })) %>
+			</tr>
+		<% end %>
+	</table>

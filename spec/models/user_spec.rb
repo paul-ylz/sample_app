@@ -26,6 +26,8 @@ describe User do
 	it { should respond_to(:reverse_relationships) }
 	it { should respond_to(:followers) }
 	it { should respond_to(:username) }
+	it { should respond_to(:messages) }
+	it { should respond_to(:received_messages) }
 
 	describe "when name is not present" do 
 		before { user.name = "" }

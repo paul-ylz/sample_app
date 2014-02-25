@@ -1,12 +1,15 @@
 class MicropostsController < ApplicationController
 
 	include ReplyParser
-	
+	include MessageHandler
+
 	before_action :signed_in_user
 	before_action :correct_user, only: :destroy
+	before_action :check_if_message, only: :create
 
 	def create
 		@micropost = current_user.microposts.build(micropost_params)
+		
 		parse_recipient!(@micropost)
 
 		if @micropost.save

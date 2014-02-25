@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
+  resources :messages, only: [:create, :destroy, :index, :show, :new]
+
+  match '/sent_messages', to: 'messages#sent', via: 'get'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
