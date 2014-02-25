@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Message pages' do 
   let(:homer) { create(:user, name: 'Homer Simpson') }
-  let(:marge) { create(:user, name: 'Marge Simpson') }
+  let!(:marge) { create(:user, name: 'Marge Simpson') }
   let(:bart) { create(:user, name: 'Bart Simpson') }
   let(:lisa) { create(:user, name: 'Lisa Simpson') }
 
@@ -52,39 +52,71 @@ describe 'Message pages' do
   end
 
 
-  describe "sending messages" do 
+  describe "sending messages from micropost interface" do 
     before do 
       sign_in homer
       visit root_url
-      fill_in 'micropost_content', with: "d #{bart.username} Son, when you 
+    end
+
+    describe "with valid syntax and content" do 
+      before do 
+        fill_in 'micropost_content', with: "d #{bart.username} Son, when you 
         participate in sporting events, it's not whether you win or lose: it's 
         how drunk you get."
+      end
+      it "should create a message" do 
+        expect{ click_button 'Post' }.to change(Message, :count).by(1)
+      end
+      it "should not create a micropost" do 
+        expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
+      end
     end
 
-    it "should create a message" do 
-      expect{ click_button 'Post' }.to change(Message, :count).by(1)
-    end
-
-    it "should not create a micropost" do 
-      expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
+    describe "with valid username and no content" do 
+      before { fill_in 'micropost_content', with: "d #{bart.username}   "}
+    
+      it "should not create a message" do 
+        expect{ click_button 'Post' }.not_to change(Message, :count).by(1)
+      end
+      it "should not create a micropost" do 
+        expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
+      end
+      describe "it should report errors" do 
+        before { click_button 'Post' }
+        it { should have_content 'error'}
+      end
     end
   end
 
 
-  describe "reply messages" do 
-    let!(:message) { bart.messages.create(to: lisa.id, content: "Lisa is stupid") }
+  describe "sending messages from message interface" do 
     before do 
-      sign_in lisa
+      sign_in homer 
       click_link 'Messages'
-      click_link 'read', href: message_path(message)
-      click_link 'reply'
-      fill_in 'message_content', with: 'So is bart'
+      click_link 'New message'
+      select marge.name, from: 'message_to'
+      fill_in 'Message', with: 'Love you margey'
     end
 
-    it "should create a reply message" do 
+    it "should send a message" do 
       expect { click_button 'Send' }.to change(Message, :count).by(1)
     end
   end
+
+  # describe "reply messages" do 
+  #   let!(:message) { bart.messages.create(to: lisa.id, content: "Lisa is stupid") }
+  #   before do 
+  #     sign_in lisa
+  #     click_link 'Messages'
+  #     click_link 'read', href: message_path(message)
+  #     click_link 'reply'
+  #     fill_in 'message_content', with: 'So is bart'
+  #   end
+
+  #   it "should create a reply message" do 
+  #     expect { click_button 'Send' }.to change(Message, :count).by(1)
+  #   end
+  # end
 
 
   describe "sent messages" do 

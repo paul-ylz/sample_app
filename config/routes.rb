@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
-  resources :messages, only: [:create, :destroy, :index, :show, :new]
+  resources :messages, only: [:new, :create, :index, :show, :destroy]
 
   match '/sent_messages', to: 'messages#sent', via: 'get'
   

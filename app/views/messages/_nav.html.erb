@@ -1,0 +1,18 @@
+<aside class="col-md-3">
+	<section>
+		<ul class="nav nav-pills nav-stacked">
+			<li>
+				<%= link_to 'New message', new_message_path %>
+			</li>
+			<li>
+				<a href="/messages">
+					Inbox 
+					<small>( <%= pluralize @inbox_count, "message" %> )</small>
+				</a>
+			</li>
+			<li>
+				<%= link_to 'Sent messages', sent_messages_path %>
+			</li>
+		</ul>
+	</section>
+</aside>

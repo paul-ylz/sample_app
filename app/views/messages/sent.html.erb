@@ -1,19 +1,23 @@
 <% provide :title, 'Sent messages' %>
 
-<table>
-	<thead>
-		<th>Sent</th><th>To</th><th>Message</th><th>Action</th>
-	</thead>	
+<div class="row">
+	<%= render 'messages/nav' %>
 
-	<% @messages.each do |message| %>
-		<tr>
-			<td><%= time_ago_in_words(message.created_at) %> ago</td>
-			<td><%= link_to message.recipient.name, message.recipient %></td>
-			<td><%= link_to message.content[0..20], message %></td>
-			<td>
-				<%= link_to 'delete', message, method: :delete, 
-				data: { confirm: delete_message } %>
-			</td>
-		</tr>
-	<% end %>
-</table>
+	<div class="col-md-9">		
+		<table class="table">
+			<thead>
+				<th>Sent</th><th>To</th><th>Message</th><th></th><th></th>
+			</thead>	
+			<% @messages.each do |message| %>
+				<tr>
+					<%= content_tag(:td, time_ago_in_words(message.created_at) + ' ago')  %>
+					<%= content_tag(:td, message.recipient.name) %>
+					<%= content_tag(:td, shorten(message.content, 40)) %>
+					<%= content_tag(:td, link_to("read", message)) %>	
+					<%= content_tag(:td, link_to("delete", message, method: :delete, data: { confirm: 'Are you sure?' })) %>
+				</tr>
+			<% end %>
+		</table>
+	</div>
+</div>
+

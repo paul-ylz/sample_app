@@ -9,17 +9,16 @@ module MessageHandler
 	def save_micropost_as_message
 		text           = params[:micropost][:content]
 		recipient      = get_message_recipient(text)
-		content        = trim_micropost_content(text)
+		content        = remove_recipient_stub(text).strip
 		# message_params = { to: recipient.id, content: content }
 		# There is something wrong with this line:
-		
+
 		message = current_user.messages.build(to: recipient.id, content: content)
 		if message.save 
 			redirect_to root_url, 
 				flash: { success: "Message sent to #{recipient.username}."}
 		else
-			redirect_to rooturl, 
-				flash: { error: "An error has occured, your message was not sent." }
+			redirect_to root_url, flash: { error: 'dude an error' }
 		end
 	end
 
@@ -31,8 +30,9 @@ module MessageHandler
 			User.find_by(username: target_username)
 		end
 
-		def trim_micropost_content(text)
+		def remove_recipient_stub(text)
 			# strip off 'd username '
-			text.tap { |s| s.slice!(/\Ad\s\b(\w|-|\.)+\s\b/i) }
+			text.tap { |s| s.slice!(/\Ad\s\b(\w|-|\.)+/i) }
 		end
+		
 end

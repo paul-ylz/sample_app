@@ -1,0 +1,12 @@
+<div class="message panel panel-default">
+	<div class="panel-heading">
+		<%= message.sender.name %> 
+		<span class="glyphicon glyphicon-arrow-right"></span> 
+		<%= message.recipient.name %><br>
+		<small><%= message.created_at.strftime("Sent %-d %B %Y at %l:%M %P") %></small>
+	</div class="panel-heading">
+	
+	<div class="panel-body">
+		<p><%= message.content %></p>
+	</div>
+</div>

@@ -3,21 +3,23 @@ class MessagesController < ApplicationController
 	before_action :signed_in_user
 	before_action :set_message, only: [:show, :destroy]
 	before_action :correct_user, only: [:show, :destroy]
+	before_action :set_message_counts
 
 	def index
 		@messages = current_user.received_messages
-		@count = @messages.size
 	end
 
 	def show 
 	end
 
-	def new
-		@reply_to = params[:to]
+	def new 
+		@message = Message.new
 	end
 
 	def create
-		if current_user.messages.create(message_params)
+		@message = current_user.messages.build(message_params)
+
+		if @message.save
 			redirect_to root_url, flash: { success: "Reply sent" }
 		else
 			render 'new'
@@ -34,6 +36,7 @@ class MessagesController < ApplicationController
 		@messages = current_user.messages
 	end
 
+
 	private
 
 		def message_params
@@ -46,6 +49,10 @@ class MessagesController < ApplicationController
 
 		def correct_user
 			redirect_to root_url unless (current_user.id == @message.from) || (current_user.id == @message.to)
+		end
+
+		def set_message_counts
+			@inbox_count ||= current_user.received_messages.size
 		end
 
 end				

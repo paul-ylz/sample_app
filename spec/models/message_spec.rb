@@ -34,5 +34,10 @@ describe Message do
   	it { should_not be_valid }
   end
 
+  describe "to must be a user id" do 
+    before { blah.to = 'foo_bar'}
+    it { should_not be_valid }
+  end
+
 end
 

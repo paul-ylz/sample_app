@@ -1,21 +1,22 @@
-<% provide(:title, 'Reply message') %>
-
-<h1>Reply</h1>
+<% provide(:title, 'New message') %>
 
 <div class="row">
-	<div class="col-md-6 col-md-offset-3">
+	<%= render 'messages/nav' %>
 
-    <%= form_for(current_user.messages.build(to: @reply_to)) do |f| %>
-	    <%= render 'shared/error_messages', object: f.object %>
+	<div class="col-md-9">
+		<div class="message">
 
-			<%= f.hidden_field :to %>
-
-			<%= f.label :content %>
-			<%= f.text_field :content %>
-
-      <%= f.submit "Send", class: "btn btn-large btn-primary" %>
-	<% end %>
-    
+			<%= form_for @message do |f| %>
+		    <%= render 'shared/error_messages', object: f.object %>
+				
+				<%= f.label :to %>
+				<%= f.collection_select(:to, User.all, :id, :name) %>
+			
+				<%= f.label :content, "Message" %>
+				<%= f.text_area :content %>
+			
+			  <%= f.submit "Send", class: "btn btn-large btn-primary" %>
+			<% end %>
+		</div>
 	</div>
 </div>
-
