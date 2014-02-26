@@ -12,7 +12,7 @@ The deployed application can be visited here: [http://morning-beach-8502.herokua
 
 ### @Replies
 
-2/21/2014 - The replies feature is complete. 
+2/21/2014 - Replies feature complete. 
 I went about it in this order:
 - test for username attribute on user
 - migrate username. Add index and unique: true
@@ -24,3 +24,26 @@ I went about it in this order:
 - integration test for @replies feature
 - query for adding replies to feed
 - include username in user_info views 
+
+### Messaging
+2/26/2013 - Messaging feature complete.
+My work flow:
+- Test: User responds to 'message'
+- Message model - fields to, from, content, index on to and from.
+- Tests for message / user associations
+- Build model associations
+- Integration test for message index and reading
+- Views and controller for message
+- Test for sending message via micropost content
+- Build message capture mechanism
+- Integration test for ability to reply message in message view
+- Build form function for message reply
+- Test message validations
+- Build message model validations
+- Delete functions for message
+- Sent messages
+- Authorizations
+- Testing errors for message creation via micropost 
+- Refactor to pass tests
+- Styling for message pages
+
