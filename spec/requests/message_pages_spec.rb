@@ -72,6 +72,20 @@ describe 'Message pages' do
       end
     end
 
+    describe "with invalid username" do 
+      before { fill_in 'micropost_content', with: "d barty hey man" }
+      it "should not create a message" do 
+        expect{ click_button 'Post' }.not_to change(Message, :count).by(1)
+      end
+      it "should not create a micropost" do 
+        expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
+      end
+      describe "it should report errors" do 
+        before { click_button 'Post' }
+        it { should have_content 'Error'}
+      end
+    end
+
     describe "with valid username and no content" do 
       before { fill_in 'micropost_content', with: "d #{bart.username}   "}
     
@@ -83,7 +97,7 @@ describe 'Message pages' do
       end
       describe "it should report errors" do 
         before { click_button 'Post' }
-        it { should have_content 'error'}
+        it { should have_content 'Error'}
       end
     end
   end
@@ -103,20 +117,20 @@ describe 'Message pages' do
     end
   end
 
-  # describe "reply messages" do 
-  #   let!(:message) { bart.messages.create(to: lisa.id, content: "Lisa is stupid") }
-  #   before do 
-  #     sign_in lisa
-  #     click_link 'Messages'
-  #     click_link 'read', href: message_path(message)
-  #     click_link 'reply'
-  #     fill_in 'message_content', with: 'So is bart'
-  #   end
+  describe "reply messages" do 
+    let!(:message) { bart.messages.create(to: lisa.id, content: "Lisa is stupid") }
+    before do 
+      sign_in lisa
+      click_link 'Messages'
+      click_link 'read', href: message_path(message)
+      click_link 'reply'
+      fill_in 'message_content', with: 'So is bart'
+    end
 
-  #   it "should create a reply message" do 
-  #     expect { click_button 'Send' }.to change(Message, :count).by(1)
-  #   end
-  # end
+    it "should create a reply message" do 
+      expect { click_button 'Send' }.to change(Message, :count).by(1)
+    end
+  end
 
 
   describe "sent messages" do 

@@ -19,12 +19,20 @@ Rails.application.routes.draw do
       get :following, :followers
     end
   end
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
-  resources :messages, only: [:new, :create, :index, :show, :destroy]
 
-  match '/sent_messages', to: 'messages#sent', via: 'get'
+  resources :messages, only: [:new, :create, :index, :show, :destroy] do 
+    get 'reply', on: :member 
+    get 'sent', on: :collection
+  end
+  
+end
+  # match '/sent_messages', to: 'messages#sent', via: 'get'
+
+  # match '/messages/:id/reply', to: 'messages#reply', via: 'get'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -80,4 +88,3 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end

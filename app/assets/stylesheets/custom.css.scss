@@ -219,6 +219,10 @@ input {
   // @extend .error;
 }
 
+.alert-error {
+  @extend .bg-danger;
+}
+
 #countdown {
   text-align: right;
   color: #999;

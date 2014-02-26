@@ -36,6 +36,11 @@ class MessagesController < ApplicationController
 		@messages = current_user.messages
 	end
 
+	def reply
+		@message_to_reply = Message.find(params[:id])
+		@message = current_user.messages.build(to: @message_to_reply.from)
+		render 'new'
+	end
 
 	private
 
