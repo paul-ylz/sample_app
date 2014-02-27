@@ -28,6 +28,7 @@ describe User do
 	it { should respond_to(:username) }
 	it { should respond_to(:messages) }
 	it { should respond_to(:received_messages) }
+	it { should respond_to(:notifications) }
 
 	describe "when name is not present" do 
 		before { user.name = "" }

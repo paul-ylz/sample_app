@@ -1,0 +1,9 @@
+<p>Hi <%= @followed.name %>,</p>
+
+<p><%= @follower.name %> is now following you.</p>
+
+<p>If you would like to stop receiving notifications, 
+	<%= link_to 'update your settings', edit_user_url(@followed) %> 
+	and uncheck 'Receive notifications'.</p>
+
+<p>Sample App</p>

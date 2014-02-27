@@ -80,6 +80,18 @@ describe "UserPages" do
 					before { click_button "Follow" }
 					it { should have_xpath("//input[@value='Unfollow']") }
 				end
+
+				describe "should send follower notification to followed user" do 
+					before { click_button "Follow" }
+					specify { expect(ActionMailer::Base.deliveries.last.to).to eq [other_user.email] }
+				end
+
+				describe "should not send follower if notifications is set to false" do 
+					before { other_user.update_attribute(:notifications, false) }
+					specify do 
+						expect{ click_button "Follow" }.not_to change(ActionMailer::Base.deliveries, :count).by(1)
+					end				
+				end
 			end
 
 			describe "unfollowing a user" do 

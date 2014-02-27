@@ -97,6 +97,10 @@ class User < ActiveRecord::Base
 		Micropost.feed_for_user(self)
 	end
 
+	def send_follower_notification(follower)
+		UserMailer.follower_notification(self, follower).deliver if notifications?
+	end
+
 	private
 
 		def create_remember_token
