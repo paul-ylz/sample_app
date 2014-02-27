@@ -47,3 +47,5 @@ My work flow:
 - Refactor to pass tests
 - Styling for message pages
 
+### Follower notifications
+2/27/2013 - Complete
