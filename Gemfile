@@ -52,6 +52,7 @@ end
 group :development, :test do 
 	gem 'rspec-rails', '~> 2.14'
 	gem 'spork-rails', '~> 4.0'
+	gem 'dotenv-rails'
 end
 
 group :test do 
