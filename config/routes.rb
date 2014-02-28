@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  get "microposts/create"
-
-  get "microposts/destroy"
-
   root              to: 'static_pages#home'
   
   match '/help',    to: 'static_pages#help', via: 'get'
@@ -28,6 +24,8 @@ Rails.application.routes.draw do
     get 'reply', on: :member 
     get 'sent', on: :collection
   end
+
+  resources :password_resets
   
 end
   # match '/sent_messages', to: 'messages#sent', via: 'get'

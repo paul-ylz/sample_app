@@ -30,4 +30,28 @@ describe UserMailer do
 	  	mail.body.encoded.should match(selma.name)
 	  end
   end
+
+
+  describe 'password_reset' do 
+  	let(:blinky) { create(:user, name: 'Blinky Three Eye') }
+  	let(:mail) { blinky.send_password_reset }
+
+	  subject { mail }
+
+	  it 'renders the subject' do 
+	  	mail.subject.should match('Password reset')
+	  end
+
+	  it 'renders the receiver email' do 
+	  	mail.to.should == [blinky.email]
+	  end
+
+	  it 'renders the sender email' do 
+	  	mail.from.should == ['noreply@sample_app.com']
+	  end
+
+	  it 'assigns @user' do 
+	  	mail.body.encoded.should match(blinky.name)
+	  end
+  end
 end

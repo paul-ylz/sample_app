@@ -1,0 +1,15 @@
+<% provide(:title, 'Confirm password reset') %>
+
+<h1>Create a new password</h1>
+
+<%= form_for @user, url: password_reset_path(params[:id]) do |f| %>
+	<%= render 'shared/error_messages', object: @user %> 
+
+	<%= f.label :password %>
+	<%= f.password_field :password %>
+
+	<%= f.label :password_confirmation %>
+	<%= f.password_field :password_confirmation %> 
+
+	<%= f.submit 'Update password', class: 'btn btn-large btn-primary' %>
+<% end %>

@@ -101,6 +101,17 @@ class User < ActiveRecord::Base
 		UserMailer.follower_notification(self, follower).deliver if notifications?
 	end
 
+	def send_password_reset
+		token = SecureRandom.urlsafe_base64
+		update_attribute(:password_reset_token, token)
+		update_attribute(:password_reset_sent_at, Time.zone.now)
+		UserMailer.password_reset(self).deliver
+	end
+
+	def invalidate_password_reset
+		update_attribute(:password_reset_token, nil)
+	end
+
 	private
 
 		def create_remember_token

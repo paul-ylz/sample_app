@@ -228,6 +228,14 @@ input[type="checkbox"] {
   @extend .bg-danger;
 }
 
+.alert-notice { 
+  @extend .bg-info;
+}
+
+.alert-alert {
+  @extend .bg-warning;
+}
+
 #countdown {
   text-align: right;
   color: #999;
