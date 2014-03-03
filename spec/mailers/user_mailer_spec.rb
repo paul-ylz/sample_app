@@ -54,4 +54,29 @@ describe UserMailer do
 	  	mail.body.encoded.should match(blinky.name)
 	  end
   end
+
+
+  describe 'email_confirmation' do 
+  	let(:kent) { create(:unconfirmed_user, name: 'Kent Brockman') }
+  	let(:mail) { kent.send_email_confirmation }
+
+  	subject { mail }
+
+	  it 'renders the subject' do 
+	  	mail.subject.should match('Email confirmation')
+	  end
+
+	  it 'renders the receiver email' do 
+	  	mail.to.should == [kent.email]
+	  end
+
+	  it 'renders the sender email' do 
+	  	mail.from.should == ['noreply@sample_app.com']
+	  end
+
+	  it 'assigns @user' do 
+	  	mail.body.encoded.should match(kent.name)
+	  end
+
+	end
 end
