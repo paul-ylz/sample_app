@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
 		@message = current_user.messages.build(message_params)
 
 		if @message.save
-			redirect_to root_url, flash: { success: "Reply sent" }
+			redirect_to root_url, flash: { success: "Message sent" }
 		else
 			render 'new'
 		end
