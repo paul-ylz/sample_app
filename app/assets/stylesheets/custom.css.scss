@@ -236,9 +236,8 @@ input[type="checkbox"] {
   @extend .bg-warning;
 }
 
-#countdown {
+#micropost_countdown {
   text-align: right;
-  color: #999;
   color: $grayLight;
 }
 
@@ -299,4 +298,9 @@ margin-top: 20px;
 
 .message {
   margin-top: 20px;
+}
+
+#message_countdown { 
+  float: right;
+  color: $grayLight;
 }

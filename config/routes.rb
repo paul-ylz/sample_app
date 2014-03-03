@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   end
 
   resources :password_resets
+
+  match '/activate/:id', to: 'users#activate', via: 'get'
   
 end
   # match '/sent_messages', to: 'messages#sent', via: 'get'

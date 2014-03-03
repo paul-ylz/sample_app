@@ -1,0 +1,10 @@
+<p>Hi <%= @user.name %></p>
+
+<p>
+	Thanks for registering at Sample App. Please <%= link_to 'click this link', 
+	url_for(controller: 'users', action: 'activate', 
+		id: @user.email_verification_token, only_path: false) %> 
+	to complete your registration.
+</p>
+
+<p>Sample App</p>

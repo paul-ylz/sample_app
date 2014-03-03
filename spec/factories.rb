@@ -15,9 +15,13 @@ FactoryGirl.define do
 		username		
 		password "password"
 		password_confirmation "password"
+		active true
 		# Chap 9.41 nesting attributes in factories
 		factory :admin do 
 			admin true
+		end
+		factory :unconfirmed_user do 
+			active false
 		end
 	end
 

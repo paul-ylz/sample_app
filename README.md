@@ -21,3 +21,7 @@ The deployed application can be visited here: [http://morning-beach-8502.herokua
 
 ### Password resets
 2/28/2014
+
+### Signup confirmation
+3/3/2014 
+Users cannot make posts until they have visited a confirmation link sent to their email.

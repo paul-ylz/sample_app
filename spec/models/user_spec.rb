@@ -164,7 +164,8 @@ describe User do
 	end
 
 	describe "micropost associations" do 
-		before { user.save }
+		let(:user) { create(:user) }
+		
 		let!(:m1) { create(:micropost, user: user) }
 		let!(:m2) { create(:micropost, user: user) }
 		let!(:m3) { create(:micropost, user: create(:user)) }

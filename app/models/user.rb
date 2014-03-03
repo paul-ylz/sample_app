@@ -5,7 +5,10 @@ class User < ActiveRecord::Base
 	# modified object to itself. 
 	# 
 	before_save { self.email.downcase! }
-	before_create :create_remember_token
+	before_create :create_remember_token, :create_email_verification_token
+
+	after_create :send_email_confirmation
+
 	has_many :microposts, dependent: :destroy
 	
 	has_many :relationships, foreign_key: "follower_id", dependent: :destroy
@@ -102,8 +105,7 @@ class User < ActiveRecord::Base
 	end
 
 	def send_password_reset
-		token = SecureRandom.urlsafe_base64
-		update_attribute(:password_reset_token, token)
+		update_attribute(:password_reset_token, User.new_remember_token)
 		update_attribute(:password_reset_sent_at, Time.zone.now)
 		UserMailer.password_reset(self).deliver
 	end
@@ -112,9 +114,22 @@ class User < ActiveRecord::Base
 		update_attribute(:password_reset_token, nil)
 	end
 
+	def send_email_confirmation
+		UserMailer.email_confirmation(self).deliver
+	end
+
+	def set_active
+		update_attribute(:active, true)
+	end
+
 	private
+
+		def create_email_verification_token
+			self.email_verification_token = User.new_remember_token
+		end
 
 		def create_remember_token
 			self.remember_token = User.encrypt(User.new_remember_token)
 		end
+
 end

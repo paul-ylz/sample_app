@@ -1,0 +1,7 @@
+Hi <%= @user.name %>
+
+Thanks for registering at Sample App. Please click the following link to complete your registration.
+
+<%= url_for controller: 'users', action: 'activate', id: @user.email_verification_token, only_path: false %>
+
+Sample App

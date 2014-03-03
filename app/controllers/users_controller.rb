@@ -20,7 +20,8 @@ class UsersController < ApplicationController
   	@user = User.new(user_params)
   	if @user.save
       sign_in @user
-  		redirect_to @user, flash: { :success => "Welcome to the Sample App!" }
+  		redirect_to @user, flash: { :success => "Welcome to the Sample App! 
+        Please check your email to activate your account." }
   	else
   		render 'new'
   	end
@@ -60,6 +61,11 @@ class UsersController < ApplicationController
     @title = "Followers"
     @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
+  end
+
+  def activate
+    @user = User.find_by_email_verification_token(params[:id])
+    @user.set_active if @user 
   end
 
   private
