@@ -7,8 +7,6 @@ class User < ActiveRecord::Base
 	before_save { self.email.downcase! }
 	before_create :create_remember_token, :create_email_verification_token
 
-	after_create :send_email_confirmation
-
 	has_many :microposts, dependent: :destroy
 	
 	has_many :relationships, foreign_key: "follower_id", dependent: :destroy

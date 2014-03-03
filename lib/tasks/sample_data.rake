@@ -15,6 +15,7 @@ def make_admin
 		username: 'foo_bar',
 		password: 'password',
 		password_confirmation: 'password',
+		active: true,
 		# Make the first user admin by default
 		admin: true
 		)
@@ -31,7 +32,8 @@ def make_users
 				email: email,
 				username: username,
 				password: password,
-				password_confirmation: password
+				password_confirmation: password,
+				active: true
 				)
 		end
 end

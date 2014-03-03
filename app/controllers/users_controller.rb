@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   	@user = User.new(user_params)
   	if @user.save
       sign_in @user
+      @user.send_email_confirmation
   		redirect_to @user, flash: { :success => "Welcome to the Sample App! 
         Please check your email to activate your account." }
   	else
