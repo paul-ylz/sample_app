@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root              to: 'static_pages#home'
-  
+    
   match '/help',    to: 'static_pages#help', via: 'get'
   match '/about',   to: 'static_pages#about', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   match '/activate/:id', to: 'users#activate', via: 'get'
   
+  match '/feed(.:format)', to: 'static_pages#home', via: 'get'
 end
   # match '/sent_messages', to: 'messages#sent', via: 'get'
 
