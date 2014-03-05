@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
 	has_many :messages, foreign_key: "from"
 	has_many :received_messages, foreign_key: "to", class_name: "Message"
 
+	has_one :api_key
+
 	validates :name, presence: true, length: { maximum: 50 }
 
 	# Tutorial suggests that model validation will not prevent a duplicate email
