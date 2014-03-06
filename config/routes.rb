@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
   resources :password_resets
+  resources :api_keys, only: [:create]
 
   resources :users do 
     member do 
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do 
    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
+
       resources :users do 
         member do 
           get :following, :followers

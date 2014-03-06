@@ -267,6 +267,16 @@ margin-top: 20px;
 .username {
   color: $grayMediumDark;
 }
+
+/* Edit users */
+.change_gravatar { 
+  .gravatar {
+    float: none;
+    display: inline;
+    margin: 10px 10px 10px 0;
+  }
+  vertical-align: middle;
+}
 /* microposts */
 
 .microposts {
