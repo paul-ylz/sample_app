@@ -2,20 +2,32 @@ module Api
 	module V1
 		class RelationshipsController < Api::V1::BaseController
 
-			before_action :correct_user
+			before_action :correct_user_for_creation, only: [:create]
+
+			before_action :correct_user_for_destroy, only: [:destroy]
 
 			def create
-				followed = User.find(params[:relationship][:followed_id])
-				current_user.follow!(followed)
-				render json: current_user.followed_users, status: 201
+				user = get_user_from_auth_header
+				user.follow!(User.find(params[:relationship][:follower_id]))
+				render json: user.followed_users, status: 201
 			end
 
+			def destroy
+				user = get_user_from_auth_header
+				user.unfollow!(Relationship.find(params[:id]).followed)
+				render json: user.followed_users, status: 200
+			end
 
 			private 
 
-				def current_user
-					User.find(params[:relationship][:follower_id])
+				def correct_user_for_creation
+					head :unauthorized unless get_user_from_auth_header == User.find(params[:relationship][:follower_id])
 				end
+
+				def correct_user_for_destroy
+					head :unauthorized unless get_user_from_auth_header == Relationship.find(params[:id]).follower
+				end
+
 		end
 	end
 end

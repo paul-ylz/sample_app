@@ -135,8 +135,8 @@ module Api
 
 				before do 
 					homer.create_api_key 
-					bart.follow(marge)
-					bart.follow(homer)
+					bart.follow!(marge)
+					bart.follow!(homer)
 				end
 
 				it "should not let anonymous users retrieve list of following" do 
@@ -160,8 +160,8 @@ module Api
 
 				before do 
 					homer.create_api_key 
-					marge.follow(bart)
-					homer.follow(bart)
+					marge.follow!(bart)
+					homer.follow!(bart)
 				end
 
 				it "should not let anonymous users retrieve list of followers" do 

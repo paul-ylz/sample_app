@@ -80,9 +80,9 @@ class User < ActiveRecord::Base
 		Micropost.where("user_id = ?", id)
 	end
 
-	def follow(user)
-		self.relationships.create(followed_id: user.id)
-	end
+	# def follow(user)
+	# 	self.relationships.create(followed_id: user.id)
+	# end
 
 	def following?(other_user)
 		self.relationships.find_by(followed_id: other_user.id)
