@@ -21,10 +21,6 @@ def sign_in(user, options={})
 	end
 end
 
-def set_http_authorization_header(user)
-	request.env["HTTP_AUTHORIZATION"] = ActionController::HttpAuthentication::Token.encode_credentials(user.api_key.access_token)
-end
-
 RSpec::Matchers.define :have_error_message do |message|
 	match do |page|
 		expect(page).to have_selector('div.alert.alert-error', text: message)

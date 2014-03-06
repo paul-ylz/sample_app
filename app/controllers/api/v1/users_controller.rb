@@ -1,8 +1,6 @@
 module Api
 	module V1 
-		class UsersController < ApplicationController 
-
-			protect_from_forgery with: :null_session
+		class UsersController < Api::V1::BaseController 
 
 			before_action :authenticate, only: [:index, :update, :following, 
 				:followers, :destroy]
@@ -51,25 +49,6 @@ module Api
 		    		:password_confirmation, :username, :notifications)
 		    end
 
-		    def authenticate
-		    	authenticate_token || render_unauthorized
-		    end
-
-		    def authenticate_token
-		    	authenticate_with_http_token do |token, options|
-		    		ApiKey.exists?(access_token: token)
-		    	end
-		    end
-
-		    def render_unauthorized
-		    	self.headers['WWW-Authenticate'] = 'Token realm="Application"'
-		    	render json: 'Bad credentials', status: 401
-		    end
-
-				def correct_user
-					head :unauthorized unless get_user_from_auth_header == current_user
-				end
-
 				def current_user 
 					User.find(params[:id])
 				end
@@ -77,16 +56,6 @@ module Api
 				def admin_user
 					head :unauthorized unless get_user_from_auth_header.admin?
 				end
-
-				# def get_user_from_auth_header
-				# 	token = request.headers['Authorization'].match(/[^Token token="]\w+/).to_s
-				# 	ApiKey.find_by_access_token(token).user
-				# end
-				def get_user_from_auth_header
-					token_params = ActionController::HttpAuthentication::Token.token_params_from(request.headers['Authorization'])
-					ApiKey.find_by_access_token(token_params[0][1]).user
-				end
-
 		end
 	end
 end
