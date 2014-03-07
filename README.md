@@ -1,12 +1,12 @@
 # Ruby on Rails 4 - Sample App
 ## Implementation
 
-Sample application from the [*Ruby on Rails Tutorial*](http://railstutorial.org/) by [Michael Hartl](http://michaelhartl.com).
-The deployed application can be visited here: [http://morning-beach-8502.herokuapp.com/](http://morning-beach-8502.herokuapp.com/).
+Sample application from the [*Ruby on Rails Tutorial*][railstutorial] by [Michael Hartl][hartl].
+The deployed application can be visited here: http://morning-beach-8502.herokuapp.com/.
 
 ## Test Suite
 
-[Rspec](https://github.com/rspec/rspec-rails) with [Capybara DSL](https://github.com/jnicklas/capybara). 
+[Rspec][rspec] with [Capybara DSL][capybara]. 
 
 ## Extensions
 
@@ -28,3 +28,78 @@ Users cannot make posts until they have visited a confirmation link sent to thei
 
 ### RSS feeds for a user's microposts and a user's status feed
 3/4/2014
+
+### REST API
+3/7/2014
+Users can interact with the app through a json API. Try it with a client such as [POSTman][postman] available in Chrome as a browser app. To get an access token, sign in to the app and go to Account > Settings > Get API key. To use the token and interact with the app, set up your http headers as follows:
+
+| Header | Value |
+| :----- | :---- |
+| Content-Type | application/json |
+| Accept | application/json |
+| Authorization | Token token="token_provided_by_app" |
+
+Most routes require token authorization. Some routes, such as show user and create user, don't. 
+
+    GET		 /api/users/:id/following(.:format)  api/v1/users#following {:format=>"json"}
+Requires authentication, view any user. Retrieves list of users the user is following.
+
+    GET    /api/users/:id/followers(.:format)  api/v1/users#followers {:format=>"json"}
+Requires authentication, view any user. Retrieves list of users following the user.
+
+    GET    /api/users(.:format)                api/v1/users#index {:format=>"json"}
+Requires authentication. Retrieves a list of all users.
+
+    POST   /api/users(.:format)                api/v1/users#create {:format=>"json"}
+No authentication required. The json should look like: 
+
+```
+{
+	"user": 
+		{ "name": 'Homer Simpson', 
+			"email": 'homer@springfield.com', 
+			"username": 'donut_man', 
+			"password": 'password', 
+			"password_confirmation": 'password' }
+}
+```
+
+    GET    /api/users/:id(.:format)            api/v1/users#show {:format=>"json"}
+No authentication required. Retrieves a user record.
+
+    PATCH  /api/users/:id(.:format)            api/v1/users#update {:format=>"json"}
+    PUT    /api/users/:id(.:format)            api/v1/users#update {:format=>"json"}
+Authentication required. Access_token must match user id. Format the json like a POST #create user, but leave off any user particulars that do not require updating.
+
+    DELETE /api/users/:id(.:format)            api/v1/users#destroy {:format=>"json"}
+Only administrator has access.
+
+    POST   /api/relationships(.:format)        api/v1/relationships#create {:format=>"json"}
+Authentication required. Follow a user. The json needs to include the user id to be followed.
+
+    { "id": 86 }
+
+    DELETE /api/relationships/:id(.:format)    api/v1/relationships#destroy {:format=>"json"}
+Authentication required. Stop following a user. The URL needs to include the user id of the user to stop following.
+
+    POST   /api/microposts(.:format)           api/v1/microposts#create {:format=>"json"}
+Authentication required. The json should look like:
+
+```
+{
+	"micropost":
+	{ "content": "Eating oats" }
+}
+```
+
+    DELETE /api/microposts/:id(.:format)       api/v1/microposts#destroy {:format=>"json"}
+Authentication required. 
+
+    GET    /api/feed(.:format)                 api/v1/users#feed {:format
+Authentication required. Retrieves your status feed.
+
+[postman]: http://www.getpostman.com/
+[rspec]: https://github.com/rspec/rspec-rails
+[capybara]:https://github.com/jnicklas/capybara
+[hartl]: http://michaelhartl.com
+[railstutorial]: http://railstutorial.org/

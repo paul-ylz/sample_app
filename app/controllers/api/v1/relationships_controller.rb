@@ -4,30 +4,29 @@ module Api
 
 			before_action :authenticate 
 
-			before_action :correct_user_for_creation, only: [:create]
+			before_action :set_user
 
-			before_action :correct_user_for_destroy, only: [:destroy]
+			before_action :check_for_relationship, only: :destroy
 
 			def create
-				user = get_user_from_auth_header
-				user.follow!(User.find(params[:relationship][:follower_id]))
-				render json: user.followed_users, status: 201
+				@user.follow!(User.find(params[:id]))
+				render json: @user, status: 201
 			end
 
 			def destroy
-				user = get_user_from_auth_header
-				user.unfollow!(Relationship.find(params[:id]).followed)
-				render json: user.followed_users, status: 200
+				@user.unfollow!(User.find(params[:id]))
+				render json: @user, status: 200
 			end
 
 			private 
 
-				def correct_user_for_creation
-					render_unauthorized unless get_user_from_auth_header == User.find(params[:relationship][:follower_id])
+				def set_user
+					@user = get_user_from_auth_header
 				end
 
-				def correct_user_for_destroy
-					render_unauthorized unless get_user_from_auth_header == Relationship.find(params[:id]).follower
+				def check_for_relationship
+					target = @user.followed_users.find_by(id: User.find(params[:id]))
+					render_not_found if target.nil?
 				end
 
 		end

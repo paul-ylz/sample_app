@@ -20,4 +20,8 @@ module ApiHelper
 		ApiKey.find_by_access_token(token_params[0][1]).user
 	end
 
+  def render_not_found
+    render json: 'Not found', status: 404
+  end
+
 end

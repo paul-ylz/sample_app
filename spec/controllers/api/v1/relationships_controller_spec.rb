@@ -16,24 +16,18 @@ module Api
 
 
 			describe 'POST #create' do 
-				let(:json) {{ format: 'json', relationship: 
-					{ follower_id: homer.to_param, followed_id: marge.to_param } } }
 
-				it "should not let anonymous users create relationship" do
-					post :create, json
+				it "should not create relationship without access token" do
+					post :create, id: marge
 					response.status.should eq 401
+					marge.followers.should_not include homer
 				end
 
-				it "should not allow anyone to create a following except the follower" do 
-					set_http_authorization_header(marge)
-					post :create, json
-					response.status.should eq 401
-				end
-
-				it "should let follower create following" do 
+				it "should create relationship with access token" do 
 					set_http_authorization_header(homer)
-					post :create, json
+					post :create, id: marge
 					response.status.should eq 201
+					marge.followers.should include homer
 				end
 			end
 
@@ -44,20 +38,20 @@ module Api
 					marge.follow!(homer)
 				end
 
-				it "should not let anonymous users delete a relationship" do
-					delete :destroy, id: Relationship.last.to_param 
+				it "should not destroy relationship without access token" do
+					delete :destroy, id: homer
 					response.status.should eq 401
 				end
 
 				it "should not allow anyone to delete a relationship except the follower" do 
 					set_http_authorization_header(homer)
-					delete :destroy, id: Relationship.last.to_param 
-					response.status.should eq 401
+					delete :destroy, id: marge
+					response.status.should eq 404
 				end
 
 				it "should let follower delete a relationship" do 
 					set_http_authorization_header(marge)
-					delete :destroy, id: Relationship.last.to_param 
+					delete :destroy, id: homer
 					response.status.should eq 200
 				end
 			end
