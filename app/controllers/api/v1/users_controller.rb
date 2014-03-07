@@ -3,7 +3,7 @@ module Api
 		class UsersController < Api::V1::BaseController 
 
 			before_action :authenticate, only: [:index, :update, :following, 
-				:followers, :destroy]
+				:followers, :destroy, :feed]
 
 			before_action :correct_user, only: [:update]
 
@@ -11,12 +11,11 @@ module Api
 
 
 			def index
-				# requests in curl return status 204 instead of 200 when using respond_with
-				render json: User.all
+				render json: User.all, status: 200
 			end
 
 			def show
-				render json: User.find_by_id(params[:id])
+				render json: User.find_by_id(params[:id]), status: 200
 			end
 
 			def create
@@ -26,19 +25,24 @@ module Api
 			def update
 				user = User.find(params[:id])
 				user.update(user_params)
-				render json: user
+				render json: user, status: 200
 			end
 
 			def destroy
-				render json: User.destroy(params[:id])
+				render json: User.destroy(params[:id]), status: 200
 			end
 
 			def following
-				render json: User.find(params[:id]).followed_users
+				render json: User.find(params[:id]).followed_users, status: 200
 			end
 
 			def followers
-				render json: User.find(params[:id]).followers
+				render json: User.find(params[:id]).followers, status: 200
+			end
+
+			def feed
+				user = get_user_from_auth_header
+				render json: user.feed, status: 200
 			end
 
 
@@ -50,11 +54,11 @@ module Api
 		    end
 
 		    def correct_user
-					head :unauthorized unless get_user_from_auth_header == User.find(params[:id])
+					render_unauthorized unless get_user_from_auth_header == User.find(params[:id])
 				end
 
 				def admin_user
-					head :unauthorized unless get_user_from_auth_header.admin?
+					render_unauthorized unless get_user_from_auth_header.admin?
 				end
 		end
 	end

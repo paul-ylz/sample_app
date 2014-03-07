@@ -41,6 +41,8 @@ Rails.application.routes.draw do
       resources :relationships, only: [:create, :destroy]
 
       resources :microposts, only: [:create, :destroy]
+
+      match '/feed', to: 'users#feed', via: 'get'
     end
   end
 end

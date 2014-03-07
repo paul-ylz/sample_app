@@ -16,12 +16,8 @@ module ApiHelper
   end
 
 	def get_user_from_auth_header
-    if request.headers['Authorization'].nil?
-      render_unauthorized && return 
-    else
-  		token_params = ActionController::HttpAuthentication::Token.token_params_from(request.headers['Authorization'])
-  		ApiKey.find_by_access_token(token_params[0][1]).user
-    end
+		token_params = ActionController::HttpAuthentication::Token.token_params_from(request.headers['Authorization'])
+		ApiKey.find_by_access_token(token_params[0][1]).user
 	end
 
 end

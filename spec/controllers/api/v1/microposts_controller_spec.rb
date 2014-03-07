@@ -44,10 +44,10 @@ module Api
 						response.status.should eq 401
 					end
 
-					it "should not delete without authorization" do 
+					it "should 404 when deleting micropost that is not theirs" do 
 						set_http_authorization_header(marge)
 						delete :destroy, id: homers_post
-						response.status.should eq 401
+						response.status.should eq 404
 					end
 
 					it "should delete with correct authorization" do
@@ -57,6 +57,7 @@ module Api
 					end
 				end
 			end
+			
 		end
 	end
 end

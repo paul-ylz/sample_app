@@ -14,7 +14,7 @@ module Api
 			def destroy
 				micropost = get_user_from_auth_header.microposts.find_by(id: params[:id])
 				if micropost.nil?
-					render_unauthorized 
+					render json: 'Not found', status: 404
 				else 
 					render json: micropost.destroy, status: 200
 				end

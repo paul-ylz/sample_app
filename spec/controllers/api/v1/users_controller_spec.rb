@@ -171,6 +171,38 @@ module Api
 				end
 			end
 
+
+			describe 'GET #feed' do 
+				let(:homer) { create(:user, name: 'Homer Simpson') }
+				let(:marge) { create(:user, name: 'Marge Simpson') }
+				let(:bart) { create(:user, name: 'Bart Simpson') }
+			
+				before do 
+					bart.create_api_key
+					bart.follow!(homer)
+					bart.follow!(marge)
+					create :micropost, user: homer
+					create :micropost, user: marge
+					create :micropost, user: bart
+				end
+
+				it "should return 404 if no auth header is sent" do 
+					get :feed
+					response.status.should eq 401
+				end
+
+				it "should return posts from self and followed users" do 
+					set_http_authorization_header(bart)
+					get :feed
+					response.status.should eq 200
+					body = JSON.parse(response.body)
+					body.length.should eq 3
+					body[2]['user_id'].should eq homer.id
+					body[1]['user_id'].should eq marge.id
+					body[0]['user_id'].should eq bart.id
+				end
+			end
+			
 		end
 	end
 end

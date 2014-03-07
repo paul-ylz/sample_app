@@ -2,6 +2,8 @@ module Api
 	module V1
 		class RelationshipsController < Api::V1::BaseController
 
+			before_action :authenticate 
+
 			before_action :correct_user_for_creation, only: [:create]
 
 			before_action :correct_user_for_destroy, only: [:destroy]
@@ -21,11 +23,11 @@ module Api
 			private 
 
 				def correct_user_for_creation
-					head :unauthorized unless get_user_from_auth_header == User.find(params[:relationship][:follower_id])
+					render_unauthorized unless get_user_from_auth_header == User.find(params[:relationship][:follower_id])
 				end
 
 				def correct_user_for_destroy
-					head :unauthorized unless get_user_from_auth_header == Relationship.find(params[:id]).follower
+					render_unauthorized unless get_user_from_auth_header == Relationship.find(params[:id]).follower
 				end
 
 		end
