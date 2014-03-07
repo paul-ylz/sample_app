@@ -15,10 +15,6 @@ module ApiHelper
   	render json: 'Bad credentials', status: 401
   end
 
-	def correct_user
-		head :unauthorized unless get_user_from_auth_header == current_user
-	end
-
 	def get_user_from_auth_header
     if request.headers['Authorization'].nil?
       render_unauthorized && return 

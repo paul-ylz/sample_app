@@ -9,17 +9,11 @@ module Api
 
 			describe 'POST #create' do 
 				let(:homer) { build(:user, name: 'Homer Simpson') }
-				let(:json) { 
-										{ format: 'json', 
-											user: 
-											{ name: homer.name, 
-												username: homer.username, 
-												email: homer.email, 
-												password: homer.password, 
-												password_confirmation: homer.password
-											} 
-										}
-									}
+				let(:json) do 
+					{ format: 'json', user: { name: homer.name, username: homer.username, 
+							email: homer.email, password: homer.password, 
+							password_confirmation: homer.password } }
+				end
 
 				it "should create" do 
 					expect { post :create, json }.to change(User, :count).by(1)

@@ -49,8 +49,8 @@ module Api
 		    		:password_confirmation, :username, :notifications)
 		    end
 
-				def current_user 
-					User.find(params[:id])
+		    def correct_user
+					head :unauthorized unless get_user_from_auth_header == User.find(params[:id])
 				end
 
 				def admin_user
