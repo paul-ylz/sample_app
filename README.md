@@ -41,31 +41,42 @@ Users can interact with the app through a json API. Try it with a client such as
 
 Most routes require token authorization. Some routes, such as show user and create user, don't. 
 
+
+#### Create a user
+    POST   /api/users(.:format)                api/v1/users#create {:format=>"json"}
+No authentication required here. The json should look like: 
+
+```
+{
+    "user": 
+        { "name": 'Homer Simpson', 
+            "email": 'homer@springfield.com', 
+            "username": 'donut_man', 
+            "password": 'password', 
+            "password_confirmation": 'password' }
+}
+```
+
+
+#### Show a single user
+    GET    /api/users/:id(.:format)            api/v1/users#show {:format=>"json"}
+No authentication required. Retrieves a user record.
+
+
+
     GET		 /api/users/:id/following(.:format)  api/v1/users#following {:format=>"json"}
 Requires authentication, view any user. Retrieves list of users the user is following.
+
 
     GET    /api/users/:id/followers(.:format)  api/v1/users#followers {:format=>"json"}
 Requires authentication, view any user. Retrieves list of users following the user.
 
+
     GET    /api/users(.:format)                api/v1/users#index {:format=>"json"}
 Requires authentication. Retrieves a list of all users.
 
-    POST   /api/users(.:format)                api/v1/users#create {:format=>"json"}
-No authentication required. The json should look like: 
+    
 
-```
-{
-	"user": 
-		{ "name": 'Homer Simpson', 
-			"email": 'homer@springfield.com', 
-			"username": 'donut_man', 
-			"password": 'password', 
-			"password_confirmation": 'password' }
-}
-```
-
-    GET    /api/users/:id(.:format)            api/v1/users#show {:format=>"json"}
-No authentication required. Retrieves a user record.
 
     PATCH  /api/users/:id(.:format)            api/v1/users#update {:format=>"json"}
     PUT    /api/users/:id(.:format)            api/v1/users#update {:format=>"json"}
