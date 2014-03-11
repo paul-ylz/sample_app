@@ -123,7 +123,7 @@ It searches against the user's name, email and username fields.
 
 I ran into an issue paginating the search results using the [will_paginate gem][will_paginate] that Hartl installs in Chapter 9. 
 
-The issue arrises because pg_search returns an ActiveRecord_Relation that would throw an error if `count` was called on it, and this was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. Not knowing how to solve that problem, I removed will_paginate and installed the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views]. 
+The issue arrises because pg_search returns an ActiveRecord_Relation that would throw an error if `count` was called on it which was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. The only solution I had found on StackOverflow was to remove will_paginate and install the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views]. 
 
 
 [postman]: http://www.getpostman.com/
