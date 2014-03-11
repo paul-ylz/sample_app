@@ -49,11 +49,11 @@ No authentication required here. The json should look like:
 ```
 {
     "user": 
-        { "name": 'Homer Simpson', 
-            "email": 'homer@springfield.com', 
-            "username": 'donut_man', 
-            "password": 'password', 
-            "password_confirmation": 'password' }
+        { "name": "Homer Simpson", 
+            "email": "homer@springfield.com", 
+            "username": "donut_man", 
+            "password": "password", 
+            "password_confirmation": "password" }
 }
 ```
 
