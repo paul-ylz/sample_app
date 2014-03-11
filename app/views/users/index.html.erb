@@ -1,16 +1,19 @@
 <% provide(:title, 'All users') %>
 
-
 <h1><%= yield(:title) %></h1>
 
-<!-- Chap 9.32 Using will_paginate gem -->
-
 <div class="col-md-6 col-md-offset-3">
-	<%= will_paginate %>
 	
+	<%= form_tag users_path, method: :get do %>
+		<%= text_field_tag :query, params[:query], placeholder: 'Search for a user' %>
+		<%= submit_tag "Search", name: nil, class: "btn btn-lrg btn-primary" %>
+	<% end %>
+	
+	<%= paginate @users %>
+
 	<ul class="users">
 		<%= render @users %>
 	</ul>
-	
-	<%= will_paginate %>
+
+	<%= paginate @users %>
 </div>

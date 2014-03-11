@@ -88,9 +88,18 @@ describe 'Micropost pages' do
 				sign_in mona
 				visit root_url 
 			end
-			it { should have_selector('div.pagination') }
+			# testing will_paginate is working
+			# it { should have_selector('div.pagination') }
+			# it "should list each feed item" do 
+			# 	mona.feed.paginate(page: 1).each do |mp|
+			# 		expect(page).to have_selector("li##{mp.id}", text: mp.content)
+			# 	end
+			# end
+
+			# tests for kaminari pagination
+			it { should have_selector('ul.pagination') }
 			it "should list each feed item" do 
-				mona.feed.paginate(page: 1).each do |mp|
+				mona.feed.page(1).each do |mp|
 					expect(page).to have_selector("li##{mp.id}", text: mp.content)
 				end
 			end
@@ -98,9 +107,18 @@ describe 'Micropost pages' do
 
 		describe "on Mona's profile page" do 
 			before { visit user_url(mona) }
-			it { should have_selector('div.pagination') }
+			# testing will_paginate
+			# it { should have_selector('div.pagination') }
+			# it "should list each of Mona's posts" do 
+			# 	mona.microposts.paginate(page: 1).each do |mp|
+			# 		expect(page).to have_selector("li##{mp.id}", text: mp.content)
+			# 	end
+			# end
+
+			# tests for kaminari pagination
+			it { should have_selector('ul.pagination') }
 			it "should list each of Mona's posts" do 
-				mona.microposts.paginate(page: 1).each do |mp|
+				mona.microposts.page(1).each do |mp|
 					expect(page).to have_selector("li##{mp.id}", text: mp.content)
 				end
 			end

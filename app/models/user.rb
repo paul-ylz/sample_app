@@ -1,6 +1,16 @@
 
 class User < ActiveRecord::Base
 	
+	# Using the pg_search gem to use Postgresql's full-text-search capabilities
+	# See https://github.com/Casecommons/pg_search
+	#
+	include PgSearch
+	pg_search_scope :search_name_and_username, 
+		against: [:name, :username, :email],
+		using: {
+			tsearch: { prefix: true, any_word: true } 
+		}
+
 	# Ex 6.5.2 Adding a bang! to the end of an object's method will assign the   
 	# modified object to itself. 
 	# 
@@ -120,6 +130,14 @@ class User < ActiveRecord::Base
 
 	def set_active
 		update_attribute(:active, true)
+	end
+
+	def self.search(query)
+		if query.present?
+			search_name_and_username(query)
+		else
+			where(nil)
+		end
 	end
 
 	private

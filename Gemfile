@@ -34,6 +34,7 @@ group :development do
 	gem 'spring'
 	gem 'better_errors'
 	gem 'binding_of_caller'
+	gem 'meta_request'
 end
 
 
@@ -73,8 +74,14 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'faker'
 
 # Chap 9.30 Pagination
-gem 'will_paginate'
+# gem 'will_paginate'
+# gem 'bootstrap-will_paginate'
 
-gem 'bootstrap-will_paginate'
+# pg_search friendly pagination
+gem 'kaminari'
+# gem 'bootstrap-kaminari-views'
 
 gem 'jquery-turbolinks'
+
+# Use ActiveRecord to manage full-text-searches in Postgresql
+gem 'pg_search'

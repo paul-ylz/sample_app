@@ -170,10 +170,19 @@ describe "UserPages" do
 			after(:all) { User.delete_all }
 
 			# test that the will_paginate gem is in force
-			it { should have_selector('div.pagination') }
+			# it { should have_selector('div.pagination') }
+
+			# it "should list each user" do 
+			# 	User.paginate(page: 1).each do |u|
+			# 		expect(page).to have_selector('li', text: u.name)
+			# 	end
+			# end
+
+			# test that the kaminari gem is in force
+			it { should have_selector('ul.pagination') }
 
 			it "should list each user" do 
-				User.paginate(page: 1).each do |u|
+				User.page(1).each do |u|
 					expect(page).to have_selector('li', text: u.name)
 				end
 			end

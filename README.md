@@ -75,23 +75,25 @@ Requires authentication, view any user. Retrieves list of users following the us
     GET    /api/users(.:format)                api/v1/users#index {:format=>"json"}
 Requires authentication. Retrieves a list of all users.
 
-    
-
 
     PATCH  /api/users/:id(.:format)            api/v1/users#update {:format=>"json"}
     PUT    /api/users/:id(.:format)            api/v1/users#update {:format=>"json"}
 Authentication required. Access_token must match user id. Format the json like a POST #create user, but leave off any user particulars that do not require updating.
 
+
     DELETE /api/users/:id(.:format)            api/v1/users#destroy {:format=>"json"}
 Only administrator has access.
+
 
     POST   /api/relationships(.:format)        api/v1/relationships#create {:format=>"json"}
 Authentication required. Follow a user. The json needs to include the user id to be followed.
 
     { "id": 86 }
 
+
     DELETE /api/relationships/:id(.:format)    api/v1/relationships#destroy {:format=>"json"}
 Authentication required. Stop following a user. The URL needs to include the user id of the user to stop following.
+
 
     POST   /api/microposts(.:format)           api/v1/microposts#create {:format=>"json"}
 Authentication required. The json should look like:
@@ -106,11 +108,28 @@ Authentication required. The json should look like:
     DELETE /api/microposts/:id(.:format)       api/v1/microposts#destroy {:format=>"json"}
 Authentication required. 
 
+
     GET    /api/feed(.:format)                 api/v1/users#feed {:format
 Authentication required. Retrieves your status feed.
+
+### User search
+3/11/2014
+
+The last extension relies on the [pg_search gem][pg_search] to do search the app's users. The gem makes it easy to do this without a 3rd party provider by using Postgresql's own full text searching capabilities.
+
+It searches against the user's name, email and username fields.
+
+I ran into an issue paginating the search results using the [will_paginate gem][will_paginate] that Hartl installs in Chapter 9. 
+
+The issue arrises because pg_search returns an `ActiveRecord_Relation` that would throw an error if `count` was called on it, and this was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. Not knowing how to solve that problem, I removed will_paginate and installed the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views]. 
+
 
 [postman]: http://www.getpostman.com/
 [rspec]: https://github.com/rspec/rspec-rails
 [capybara]:https://github.com/jnicklas/capybara
 [hartl]: http://michaelhartl.com
 [railstutorial]: http://railstutorial.org/
+[pg_search]: https://github.com/Casecommons/pg_search
+[will_paginate]: https://github.com/mislav/will_paginate
+[kaminari]: https://github.com/amatsuda/kaminari
+[kaminari-tw-bs-views]: https://github.com/gabetax/twitter-bootstrap-kaminari-views

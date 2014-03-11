@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @microposts = @user.microposts.paginate(page: params[:page])
+    @microposts = @user.microposts.page params[:page]
   end
 
   def create
@@ -43,7 +43,10 @@ class UsersController < ApplicationController
     # Chapter 9.33 Using the will_paginate gem. 
     # Note params[:page] is generated automatically by will_paginate.
     # Default chunk size is 30 items.
-    @users = User.paginate(page: params[:page])
+    # @users = User.paginate(page: params[:page])
+
+    # Using pg_search for full text search and kaminari gem to paginate
+    @users = User.search(params[:query]).page params[:page]
   end
 
   def destroy 
@@ -54,13 +57,13 @@ class UsersController < ApplicationController
 
   def following
     @title = "Following"
-    @users = @user.followed_users.paginate(page: params[:page])
+    @users = @user.followed_users.page params[:page]
     render 'show_follow'
   end
 
   def followers
     @title = "Followers"
-    @users = @user.followers.paginate(page: params[:page])
+    @users = @user.followers.page params[:page]
     render 'show_follow'
   end
 
