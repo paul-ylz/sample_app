@@ -121,6 +121,36 @@ describe "UserPages" do
 	end
 
 
+	describe "User stats on profile page" do 
+		let(:skinner) { create(:user, name: "Seymour Skinner") }
+		let(:edna) { create(:user, name: "Edna Krabappel") }
+		let(:lisa) { create(:user, name: "Lisa Simpson") }
+
+		before do 
+			lisa.follow!(skinner) 
+			lisa.follow!(edna)
+		end
+
+		describe "skinner's stats" do 
+			before { visit user_url(skinner) }
+			it { should have_content('0 following') }
+			it { should have_content('1 follower')}
+		end
+
+		describe "edna's stats" do 
+			before { visit user_url(edna) }
+			it { should have_content('0 following') }
+			it { should have_content('1 follower')}
+		end
+
+		describe "lisa's stats" do 
+			before { visit user_url(lisa) }
+			it { should have_content('2 following') }
+			it { should have_content('0 followers')}
+		end
+	end
+
+
 	describe "Settings (edit user) page" do 
 		before do 
 			sign_in user 
@@ -190,6 +220,15 @@ describe "UserPages" do
 
 		it "should not have delete links for non administrators" do 
 			expect(page).not_to have_link('delete')
+		end
+
+		describe "should return a search of users" do 
+			before do 
+				query = User.first.name[0..2]
+				fill_in 'query', with: query
+				click_button 'Search'
+			end
+			it { should have_content User.first.username }
 		end
 	end
 

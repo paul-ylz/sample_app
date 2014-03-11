@@ -46,14 +46,6 @@ describe Micropost do
 		it "should list microposts chronologically" do 
 			expect(willie.microposts.to_a).to eq [newer, older]
 		end
-		it "should destroy associated microposts when a user is destroyed" do 
-			microposts = willie.microposts.to_a
-			willie.destroy
-			expect(microposts).not_to be_empty
-			microposts.each do |m|
-				expect(Micropost.where(id: m.id)).to be_empty
-			end
-		end
 	end
 
 end

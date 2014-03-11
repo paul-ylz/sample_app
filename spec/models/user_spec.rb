@@ -174,9 +174,11 @@ describe User do
 			its(:feed) { should include m1 }
 			its(:feed) { should include m2 }
 		end
+
 		describe "feed should not include unfollowed users' posts" do 
 			its(:feed) { should_not include m3 }
 		end
+
 		describe "feed should include followed users' posts" do 
 			let(:followed_user) { create(:user) }
 			before do 
@@ -189,15 +191,26 @@ describe User do
 				end
 			end
 		end
+
+		it "should destroy associated microposts when a user is destroyed" do 
+			microposts = user.microposts.to_a
+			user.destroy
+			expect(microposts).not_to be_empty
+			microposts.each do |m|
+				expect(Micropost.where(id: m.id)).to be_empty
+			end
+		end
 	end
 
 	# Chap 11
-	describe "following" do 
+	describe "relationship associations" do 
 		let(:marge) { create(:user, name: 'Marge Simpson') }
 		let(:homer) { create(:user, name: 'Homer Simpson') }
 		
 		before { marge.follow! homer }
+
 		subject { marge }
+
 		it { should be_following homer }
 		its(:followed_users) { should include homer }
 
@@ -210,6 +223,16 @@ describe User do
 			before { marge.unfollow! homer }
 			it { should_not be_following homer }
 			its(:followed_users) { should_not include homer }
+		end
+
+		# Exercise 11.5.1 Tests for destroying asociated relationships
+		it "should destroy relationships when a user is destroyed" do 
+			relationships = Relationship.where(follower_id: marge.to_param).to_a
+			marge.destroy 
+			expect(relationships).not_to be_empty
+			relationships.each do |r|
+				expect(Relationship.where(id: r.id)).to be_empty
+			end
 		end
 	end
 end
