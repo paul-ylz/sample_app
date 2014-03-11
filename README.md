@@ -115,13 +115,15 @@ Authentication required. Retrieves your status feed.
 ### User search
 3/11/2014
 
-The last extension relies on the [pg_search gem][pg_search] to do search the app's users. The gem makes it easy to do this without a 3rd party provider by using Postgresql's own full text searching capabilities.
+The last extension relies on the [pg_search gem][pg_search] to search the app's users. The gem makes it easy to do this without a 3rd party provider by using [Postgresql's own full text searching][pg-docs-search] capabilities. This is what [Heroku's docs][heroku-search-options] recommend for full text searching. It certainly seems to be the only free option. 
 
 It searches against the user's name, email and username fields.
 
+#### Issue with will_paginate
+
 I ran into an issue paginating the search results using the [will_paginate gem][will_paginate] that Hartl installs in Chapter 9. 
 
-The issue arrises because pg_search returns an `ActiveRecord_Relation` that would throw an error if `count` was called on it, and this was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. Not knowing how to solve that problem, I removed will_paginate and installed the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views]. 
+The issue arrises because pg_search returns an ActiveRecord_Relation that would throw an error if `count` was called on it, and this was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. Not knowing how to solve that problem, I removed will_paginate and installed the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views]. 
 
 
 [postman]: http://www.getpostman.com/
@@ -133,3 +135,5 @@ The issue arrises because pg_search returns an `ActiveRecord_Relation` that woul
 [will_paginate]: https://github.com/mislav/will_paginate
 [kaminari]: https://github.com/amatsuda/kaminari
 [kaminari-tw-bs-views]: https://github.com/gabetax/twitter-bootstrap-kaminari-views
+[heroku-search-options]: https://devcenter.heroku.com/articles/full-text-search
+[pg-docs-search]: http://www.postgresql.org/docs/current/static/textsearch.html
