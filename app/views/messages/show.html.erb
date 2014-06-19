@@ -1,21 +1,13 @@
 <% provide :title, 'Message' %>
-
 <div class="row">
-	<%= render 'messages/nav' %>
-
-<div class="col-md-9">
-
-	<%= render @message %>
-
-	<p class="text-center">
-		<%= link_to 'reply', reply_message_path(@message), 
-			class: "btn btn-large btn-primary" %>
-			
-		<%= link_to 'delete', @message, method: :delete, 
-			data: { confirm: 'Are you sure?' }, class: "btn btn-large" %>
-	</p>
-
+  <%= render 'messages/nav' %>
+  <div class='col-md-9'>
+    <%= render @message %>
+    <p class='text-center'>
+      <%= link_to 'reply', reply_message_path(@message),
+        class: 'btn btn-large btn-primary' %>
+      <%= link_to 'delete', @message, method: :delete,
+        data: { confirm: 'Are you sure?' }, class: 'btn btn-large' %>
+    </p>
+  </div>
 </div>
-
-
-

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Message pages' do 
+describe 'Message pages' do
   let(:homer) { create(:user, name: 'Homer Simpson') }
   let!(:marge) { create(:user, name: 'Marge Simpson') }
   let(:bart) { create(:user, name: 'Bart Simpson') }
@@ -8,32 +8,30 @@ describe 'Message pages' do
 
   subject { page }
 
+  describe "reading a message" do
+    let!(:message) { homer.messages.create(to: bart.id,
+        content: "Bart, with $10,000, we'd be millionaires!") }
 
-  describe "reading a message" do 
-  	let!(:message) { homer.messages.create(to: bart.id, 
-  			content: "Bart, with $10,000, we'd be millionaires!") }
+    before do
+      sign_in bart
+      click_link 'Messages'
+      click_link 'read', href: message_path(message)
+    end
 
-  	before do 
-  		sign_in bart
-  		click_link 'Messages'
-  		click_link 'read', href: message_path(message)
-  	end
-
-  	it { should have_content message.content }
+    it { should have_content message.content }
     it { should have_link 'delete' }
 
-    it "should delete a message" do 
+    it "should delete a message" do
       expect { click_link 'delete' }.to change(Message, :count).by(-1)
     end
   end
 
-
-  describe "message index should list messages, senders and delete links" do 
+  describe "message index should list messages, senders and delete links" do
     let!(:m1) { homer.messages.create(to: lisa.id, content: 'foo bar') }
     let!(:m2) { marge.messages.create(to: lisa.id, content: 'foo baz') }
 
-    before do 
-      sign_in lisa 
+    before do
+      sign_in lisa
       click_link 'Messages'
     end
 
@@ -45,57 +43,57 @@ describe 'Message pages' do
 
     it { should have_link 'delete', href: message_path(m1) }
     it { should have_link 'delete', href: message_path(m2) }
-    
-    it "should delete a message" do 
+
+    it "should delete a message" do
       expect { click_link 'delete', match: :first }.to change(Message, :count).by(-1)
     end
   end
 
 
-  describe "sending messages from micropost interface" do 
-    before do 
+  describe "sending messages from micropost interface" do
+    before do
       sign_in homer
       visit root_url
     end
 
-    describe "with valid syntax and content" do 
-      before do 
-        fill_in 'micropost_content', with: "d #{bart.username} Son, when you 
-        participate in sporting events, it's not whether you win or lose: it's 
+    describe "with valid syntax and content" do
+      before do
+        fill_in 'micropost_content', with: "d #{bart.username} Son, when you
+        participate in sporting events, it's not whether you win or lose: it's
         how drunk you get."
       end
-      it "should create a message" do 
+      it "should create a message" do
         expect{ click_button 'Post' }.to change(Message, :count).by(1)
       end
-      it "should not create a micropost" do 
+      it "should not create a micropost" do
         expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
       end
     end
 
-    describe "with invalid username" do 
+    describe "with invalid username" do
       before { fill_in 'micropost_content', with: "d barty hey man" }
-      it "should not create a message" do 
+      it "should not create a message" do
         expect{ click_button 'Post' }.not_to change(Message, :count).by(1)
       end
-      it "should not create a micropost" do 
+      it "should not create a micropost" do
         expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
       end
-      describe "it should report errors" do 
+      describe "it should report errors" do
         before { click_button 'Post' }
         it { should have_content 'Error'}
       end
     end
 
-    describe "with valid username and no content" do 
+    describe "with valid username and no content" do
       before { fill_in 'micropost_content', with: "d #{bart.username}   "}
-    
-      it "should not create a message" do 
+
+      it "should not create a message" do
         expect{ click_button 'Post' }.not_to change(Message, :count).by(1)
       end
-      it "should not create a micropost" do 
+      it "should not create a micropost" do
         expect{ click_button 'Post' }.not_to change(Micropost, :count).by(1)
       end
-      describe "it should report errors" do 
+      describe "it should report errors" do
         before { click_button 'Post' }
         it { should have_content 'Error'}
       end
@@ -103,23 +101,23 @@ describe 'Message pages' do
   end
 
 
-  describe "sending messages from message interface" do 
-    before do 
-      sign_in homer 
+  describe "sending messages from message interface" do
+    before do
+      sign_in homer
       click_link 'Messages'
       click_link 'New message'
       select marge.name, from: 'message_to'
       fill_in 'Message', with: 'Love you margey'
     end
 
-    it "should send a message" do 
+    it "should send a message" do
       expect { click_button 'Send' }.to change(Message, :count).by(1)
     end
   end
 
-  describe "reply messages" do 
+  describe "reply messages" do
     let!(:message) { bart.messages.create(to: lisa.id, content: "Lisa is stupid") }
-    before do 
+    before do
       sign_in lisa
       click_link 'Messages'
       click_link 'read', href: message_path(message)
@@ -127,16 +125,16 @@ describe 'Message pages' do
       fill_in 'message_content', with: 'So is bart'
     end
 
-    it "should create a reply message" do 
+    it "should create a reply message" do
       expect { click_button 'Send' }.to change(Message, :count).by(1)
     end
   end
 
 
-  describe "sent messages" do 
-    let!(:message) { marge.messages.create(to: bart.id, 
+  describe "sent messages" do
+    let!(:message) { marge.messages.create(to: bart.id,
       content: "Bart, clean your room.") }
-    before do 
+    before do
       sign_in marge
       click_link 'Messages'
       click_link 'Sent messages'
@@ -146,32 +144,32 @@ describe 'Message pages' do
     it { should have_content "#{bart.name}" }
   end
 
-  describe "authorizations" do 
-    let!(:message) { marge.messages.create(to: bart.id, 
+  describe "authorizations" do
+    let!(:message) { marge.messages.create(to: bart.id,
       content: "Bart, clean your room.") }
 
-    describe "as unauthenticated user" do 
+    describe "as unauthenticated user" do
 
-      shared_examples_for "redirects to signin" do 
+      shared_examples_for "redirects to signin" do
         specify { expect(response).to redirect_to signin_url }
       end
 
-      describe "inbox" do 
+      describe "inbox" do
         before { get messages_path }
         it_should_behave_like "redirects to signin"
       end
 
-      describe "reading a message" do 
+      describe "reading a message" do
         before { get message_path message }
         it_should_behave_like "redirects to signin"
       end
 
-      describe "sent messages" do 
+      describe "sent messages" do
         before { get sent_messages_path }
         it_should_behave_like "redirects to signin"
       end
 
-      describe "deleting a message" do 
+      describe "deleting a message" do
         specify { expect { delete message_path message }.not_to change(Message, :count).by(-1) }
 
         before { delete message_path message }
@@ -179,19 +177,19 @@ describe 'Message pages' do
       end
     end
 
-    describe "as wrong user" do 
+    describe "as wrong user" do
       before { sign_in homer, no_capybara: true }
 
-      describe "deleting another user's message" do 
+      describe "deleting another user's message" do
         specify { expect { delete message_path message }.not_to change(Message, :count).by(-1) }
 
-        describe "it should redirect to root" do 
+        describe "it should redirect to root" do
           before { delete message_path message }
           specify { expect(response).to redirect_to root_url }
         end
       end
 
-      describe "reading another user's message" do 
+      describe "reading another user's message" do
         before { get message_path message }
         specify { expect(response).to redirect_to root_url }
       end

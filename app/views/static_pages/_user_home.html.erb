@@ -1,15 +1,7 @@
-<div class="row">
-
-  <aside class="col-md-4">
-
-    <section>
-      <%= render 'shared/user_info', user: current_user %>
-    </section>
-
-    <section>
-      <%= render 'shared/stats' %>
-    </section>
-
+<div class='row'>
+  <aside class='col-md-4'>
+    <section><%= render 'shared/user_info', user: current_user %></section>
+    <section><%= render 'shared/stats' %></section>
     <section>
       <%= render 'shared/micropost_form' %>
       <small>
@@ -21,12 +13,9 @@
         Sends a direct message to username
       </small>
     </section>
-
   </aside>
-
-  <div class="col-md-7 col-md-offset-1">
-  	<h3>Micropost Feed</h3>
-		<%= render 'shared/feed' %>    		
+  <div class='col-md-7 col-md-offset-1'>
+    <h3>Micropost Feed</h3>
+    <%= render 'shared/feed' %>
   </div>
-  
 </div>

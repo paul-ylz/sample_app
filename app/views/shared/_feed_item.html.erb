@@ -1,9 +1,9 @@
-<li id="<%= feed_item.id %>">
-	<%= link_to gravatar_for(feed_item.user, size: 52), feed_item.user %>
-	<span class="user">
-		<%= link_to feed_item.user.name, feed_item.user %>
-		<small class="username">@<%= feed_item.user.username %></small>
-	</span>
-	<%= render 'shared/post_content', object: feed_item %>
+<li id='<%= feed_item.id %>'>
+  <%= link_to gravatar_for(feed_item.user, size: 52), feed_item.user %>
+  <span class='user'>
+    <%= link_to feed_item.user.name, feed_item.user %>
+    <small class='username'>@<%= feed_item.user.username %></small>
+  </span>
+  <%= render 'shared/post_content', object: feed_item %>
   <%= render 'shared/delete_link', object: feed_item %>
 </li>

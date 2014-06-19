@@ -1,23 +1,15 @@
-<% provide(:title, "Sign in") %>
-
+<% provide(:title, 'Sign in') %>
 <h1>Sign in</h1>
-
-<div class="row">
-	<div class="col-md-6 col-md-offset-3">
-		<!-- Ex 8.51 Use form_tag instead of form_for. form_tag is more appropriate
-		as a session is not a resource. -->
-		<%= form_tag sessions_path do %>
-
-			<%= label_tag :email %>
-			<%= text_field_tag :email, params[:email] %>
-
-			<%= label_tag :password %>
-			<%= password_field_tag :password, params[:password] %>
-
-			<%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
-		<% end %>
-		<p><%= link_to 'Forgot password?', new_password_reset_path %></p>
-		<p>New user? <%= link_to "Sign up now!", signup_path %></p>
-	</div>
+<div class='row'>
+  <div class='col-md-6 col-md-offset-3'>
+    <%= form_tag sessions_path do %>
+      <%= label_tag :email %>
+      <%= text_field_tag :email, params[:email] %>
+      <%= label_tag :password %>
+      <%= password_field_tag :password, params[:password] %>
+      <%= submit_tag 'Sign in', class: 'btn btn-large btn-primary' %>
+    <% end %>
+    <p><%= link_to 'Forgot password?', new_password_reset_path %></p>
+    <p>New user? <%= link_to 'Sign up now!', signup_path %></p>
+  </div>
 </div>
-

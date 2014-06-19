@@ -6,7 +6,7 @@ The deployed application can be visited here: http://morning-beach-8502.herokuap
 
 ## Test Suite
 
-[Rspec][rspec] with [Capybara DSL][capybara]. 
+[Rspec][rspec] with [Capybara DSL][capybara].
 
 ## Extensions
 
@@ -23,7 +23,7 @@ The deployed application can be visited here: http://morning-beach-8502.herokuap
 2/28/2014
 
 ### Signup confirmation
-3/3/2014 
+3/3/2014
 Users cannot make posts until they have visited a confirmation link sent to their email.
 
 ### RSS feeds for a user's microposts and a user's status feed
@@ -39,20 +39,20 @@ Users can interact with the app through a json API. Try it with a client such as
 | Accept | application/json |
 | Authorization | Token token="token_provided_by_app" |
 
-Most routes require token authorization. Some routes, such as show user and create user, don't. 
+Most routes require token authorization. Some routes, such as show user and create user, don't.
 
 
 #### Create a user
     POST   /api/users(.:format)                api/v1/users#create {:format=>"json"}
-No authentication required here. The json should look like: 
+No authentication required here. The json should look like:
 
 ```
 {
-    "user": 
-        { "name": "Homer Simpson", 
-            "email": "homer@springfield.com", 
-            "username": "donut_man", 
-            "password": "password", 
+    "user":
+        { "name": "Homer Simpson",
+            "email": "homer@springfield.com",
+            "username": "donut_man",
+            "password": "password",
             "password_confirmation": "password" }
 }
 ```
@@ -64,7 +64,7 @@ No authentication required. Retrieves a user record.
 
 
 
-    GET		 /api/users/:id/following(.:format)  api/v1/users#following {:format=>"json"}
+    GET      /api/users/:id/following(.:format)  api/v1/users#following {:format=>"json"}
 Requires authentication, view any user. Retrieves list of users the user is following.
 
 
@@ -100,13 +100,13 @@ Authentication required. The json should look like:
 
 ```
 {
-	"micropost":
-	{ "content": "Eating oats" }
+    "micropost":
+    { "content": "Eating oats" }
 }
 ```
 
     DELETE /api/microposts/:id(.:format)       api/v1/microposts#destroy {:format=>"json"}
-Authentication required. 
+Authentication required.
 
 
     GET    /api/feed(.:format)                 api/v1/users#feed {:format
@@ -115,16 +115,15 @@ Authentication required. Retrieves your status feed.
 ### User search
 3/11/2014
 
-The last extension relies on the [pg_search gem][pg_search] to search the app's users. The gem makes it easy to do this without a 3rd party provider by using [Postgresql's own full text searching][pg-docs-search] capabilities. This is what [Heroku's docs][heroku-search-options] recommend for full text searching. It certainly seems to be the only free option. 
+The last extension relies on the [pg_search gem][pg_search] to search the app's users. The gem makes it easy to do this without a 3rd party provider by using [Postgresql's own full text searching][pg-docs-search] capabilities. This is what [Heroku's docs][heroku-search-options] recommend for full text searching. It certainly seems to be the only free option.
 
 It searches against the user's name, email and username fields.
 
 #### Issue with will_paginate
 
-I ran into an issue paginating the search results using the [will_paginate gem][will_paginate] that Hartl installs in Chapter 9. 
+I ran into an issue paginating the search results using the [will_paginate gem][will_paginate] that Hartl installs in Chapter 9.
 
-The issue arrises because pg_search returns an ActiveRecord_Relation that would throw an error if `count` was called on it which was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. The only solution I had found on StackOverflow was to remove will_paginate and install the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views]. 
-
+The issue arrises because pg_search returns an ActiveRecord_Relation that would throw an error if `count` was called on it which was breaking `<%= will_paginate %>`. The search result seems to require `count(:all)` instead. The only solution I had found on StackOverflow was to remove will_paginate and install the [kaminari gem][kaminari] for pagination instead. [Kaminari views for Twitter Bootstrap here][kaminari-tw-bs-views].
 
 [postman]: http://www.getpostman.com/
 [rspec]: https://github.com/rspec/rspec-rails

@@ -1,13 +1,10 @@
-<div class="message">
-	<%= form_for @message do |f| %>
+<div class='message'>
+  <%= form_for @message do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
-		
-		<%= f.label :to %>
-		<%= f.collection_select(:to, User.all, :id, :name) %>
-		
-		<%= f.label :content, "Message" %>
-		<%= f.text_area :content %>
-	
-	  <%= f.submit "Send", class: "btn btn-large btn-primary" %>
-	<% end %>
+    <%= f.label :to %>
+    <%= f.collection_select(:to, User.all, :id, :name) %>
+    <%= f.label :content, 'Message' %>
+    <%= f.text_area :content %>
+    <%= f.submit 'Send', class: 'btn btn-large btn-primary' %>
+  <% end %>
 </div>

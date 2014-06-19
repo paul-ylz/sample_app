@@ -14,7 +14,7 @@ Rails.application.configure do
 
   # Configure static asset server for tests with Cache-Control for performance.
   config.serve_static_assets  = true
-  config.static_cache_control = "public, max-age=3600"
+  config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -37,5 +37,5 @@ Rails.application.configure do
   # As per chap 7.11, speed up tests by lowering bcrypt's cost function.
   ActiveModel::SecurePassword.min_cost = true
 
-  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end

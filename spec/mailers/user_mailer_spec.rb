@@ -2,81 +2,79 @@
 require "spec_helper"
 
 describe UserMailer do
-  
-	describe 'follower_notification' do 
-	  let(:patty) { create(:user, name: 'Patty Bouvier') }
-	  let(:selma) { create(:user, name: 'Selma Bouvier') }
-	  let(:mail) { patty.send_follower_notification(selma) }
 
-	  subject { mail }
+  describe 'follower_notification' do
+    let(:patty) { create(:user, name: 'Patty Bouvier') }
+    let(:selma) { create(:user, name: 'Selma Bouvier') }
+    let(:mail) { patty.send_follower_notification(selma) }
 
-	  it 'renders the subject' do 
-	  	mail.subject.should match('new follower')
-	  end
+    subject { mail }
 
-	  it 'renders the receiver email' do 
-	  	mail.to.should == [patty.email]
-	  end
+    it 'renders the subject' do
+      mail.subject.should match('new follower')
+    end
 
-	  it 'renders the sender email' do 
-	  	mail.from.should == ['noreply@sample_app.com']
-	  end
+    it 'renders the receiver email' do
+      mail.to.should == [patty.email]
+    end
 
-	  it 'assigns @followed' do 
-	  	mail.body.encoded.should match(patty.name)
-	  end
+    it 'renders the sender email' do
+      mail.from.should == ['noreply@sample_app.com']
+    end
 
-	  it 'assigns @follower' do 
-	  	mail.body.encoded.should match(selma.name)
-	  end
+    it 'assigns @followed' do
+      mail.body.encoded.should match(patty.name)
+    end
+
+    it 'assigns @follower' do
+      mail.body.encoded.should match(selma.name)
+    end
   end
 
 
-  describe 'password_reset' do 
-  	let(:blinky) { create(:user, name: 'Blinky Three Eye') }
-  	let(:mail) { blinky.send_password_reset }
+  describe 'password_reset' do
+    let(:blinky) { create(:user, name: 'Blinky Three Eye') }
+    let(:mail) { blinky.send_password_reset }
 
-	  subject { mail }
+    subject { mail }
 
-	  it 'renders the subject' do 
-	  	mail.subject.should match('Password reset')
-	  end
+    it 'renders the subject' do
+      mail.subject.should match('Password reset')
+    end
 
-	  it 'renders the receiver email' do 
-	  	mail.to.should == [blinky.email]
-	  end
+    it 'renders the receiver email' do
+      mail.to.should == [blinky.email]
+    end
 
-	  it 'renders the sender email' do 
-	  	mail.from.should == ['noreply@sample_app.com']
-	  end
+    it 'renders the sender email' do
+      mail.from.should == ['noreply@sample_app.com']
+    end
 
-	  it 'assigns @user' do 
-	  	mail.body.encoded.should match(blinky.name)
-	  end
+    it 'assigns @user' do
+      mail.body.encoded.should match(blinky.name)
+    end
   end
 
+  describe 'email_confirmation' do
+    let(:kent) { create(:unconfirmed_user, name: 'Kent Brockman') }
+    let(:mail) { kent.send_email_confirmation }
 
-  describe 'email_confirmation' do 
-  	let(:kent) { create(:unconfirmed_user, name: 'Kent Brockman') }
-  	let(:mail) { kent.send_email_confirmation }
+    subject { mail }
 
-  	subject { mail }
+    it 'renders the subject' do
+      mail.subject.should match('Email confirmation')
+    end
 
-	  it 'renders the subject' do 
-	  	mail.subject.should match('Email confirmation')
-	  end
+    it 'renders the receiver email' do
+      mail.to.should == [kent.email]
+    end
 
-	  it 'renders the receiver email' do 
-	  	mail.to.should == [kent.email]
-	  end
+    it 'renders the sender email' do
+      mail.from.should == ['noreply@sample_app.com']
+    end
 
-	  it 'renders the sender email' do 
-	  	mail.from.should == ['noreply@sample_app.com']
-	  end
-
-	  it 'assigns @user' do 
-	  	mail.body.encoded.should match(kent.name)
-	  end
-
-	end
+    it 'assigns @user' do
+      mail.body.encoded.should match(kent.name)
+    end
+  end
 end

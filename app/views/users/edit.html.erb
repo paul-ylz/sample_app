@@ -1,25 +1,25 @@
-<% provide(:title, "Edit user") %>
+<% provide(:title, 'Edit user') %>
 
 <h1>Update your profile</h1>
 
-<div class="row">
-	<div class="col-md-6 col-md-offset-3">
-		<!-- Rails will generate a form with hidden PATCH method. It knows to use 
-	PATCH instead of POST by calling new_record? -->
-		<%= form_for(@user) do |f| %>
-			<!-- Ex 9.6.5 Passing argument f as a local variable -->
-			<%= render 'form_fields', f: f %>
-			<%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
-		<% end %>
+<div class='row'>
+  <div class='col-md-6 col-md-offset-3'>
+    <!-- Rails will generate a form with hidden PATCH method. It knows to use
+  PATCH instead of POST by calling new_record? -->
+    <%= form_for(@user) do |f| %>
+      <!-- Ex 9.6.5 Passing argument f as a local variable -->
+      <%= render 'form_fields', f: f %>
+      <%= f.submit "Save changes", class: 'btn btn-large btn-primary' %>
+    <% end %>
 
-		<section class="change_gravatar">
-			<%= gravatar_for @user %>
-			<%= link_to 'change', 'http://gravatar.com/emails', { target: '_blank' } %>
-		</section>		
+    <section class='change_gravatar'>
+      <%= gravatar_for @user %>
+      <%= link_to 'change', 'http://gravatar.com/emails', { target: '_blank' } %>
+    </section>
 
-		<section>
-			<%= render 'users/api_key' %>
-		</section>
+    <section>
+      <%= render 'users/api_key' %>
+    </section>
 
-	</div>
+  </div>
 </div>

@@ -1,18 +1,21 @@
 <% if current_user.api_key.present? %>
-<h4>Access token for API access</h4>
-	<p>Please include the following header/value with your request headers.</p>
-	<table class="table">
-		<thead>
-			<th>Header</th><th>Value</th>
-		</thead>
-		<tr>
-			<td>Authorization</td><td>Token token="<%= current_user.api_key.access_token %>"</td>
-		</tr>
-	</table>
+
+  <h4>Access token for API access</h4>
+  <p>Please include the following header/value with your request headers.</p>
+  <table class='table'>
+    <thead>
+      <th>Header</th><th>Value</th>
+    </thead>
+    <tr>
+      <td>Authorization</td><td>Token token="<%= current_user.api_key.access_token %>"</td>
+    </tr>
+  </table>
 
 <% else %>
-	<%= form_for :api_key, url: api_keys_path do |f| %>
-		<%= f.hidden_field :user_id %>
-		<%= f.submit 'Get API key' %>
-	<% end %>
+
+  <%= form_for :api_key, url: api_keys_path do |f| %>
+    <%= f.hidden_field :user_id %>
+    <%= f.submit 'Get API key' %>
+  <% end %>
+
 <% end %>

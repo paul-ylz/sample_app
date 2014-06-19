@@ -1,7 +1,6 @@
 require 'api_constraints'
 
 Rails.application.routes.draw do
-
   root              to: 'static_pages#home'
   match '/help',    to: 'static_pages#help', via: 'get'
   match '/about',   to: 'static_pages#about', via: 'get'
@@ -18,30 +17,26 @@ Rails.application.routes.draw do
   resources :password_resets
   resources :api_keys, only: [:create]
 
-  resources :users do 
-    member do 
+  resources :users do
+    member do
       get :following, :followers
     end
   end
 
-  resources :messages, only: [:new, :create, :index, :show, :destroy] do 
-    get 'reply', on: :member 
+  resources :messages, only: [:new, :create, :index, :show, :destroy] do
+    get 'reply', on: :member
     get 'sent', on: :collection
   end
 
-  namespace :api, defaults: { format: 'json' } do 
+  namespace :api, defaults: { format: 'json' } do
    scope module: :v1, constraints: ApiConstraints.new(version: 1, default: :true) do
-
-      resources :users do 
-        member do 
+      resources :users do
+        member do
           get :following, :followers
         end
       end
-
       resources :relationships, only: [:create, :destroy]
-
       resources :microposts, only: [:create, :destroy]
-
       match '/feed', to: 'users#feed', via: 'get'
     end
   end
